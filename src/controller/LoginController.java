@@ -4,12 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import model.Rol;
+import model.Usuario;
 
 
 import java.io.IOException;
@@ -33,8 +32,9 @@ public class LoginController {
         if(userLogin == null){
             emailField.setText("");
             passwordField.setText("");
-            result.setText("CREDENCIALES INCORRECTAS");
-        }else if(userLogin.getRol == Rol.U_REGULAR){
+            mostrarMensaje("Notificación usuario","Error","Credenciales incorrectas", Alert.AlertType.ERROR);
+
+        }else if(userLogin.getRol() == Rol.U_REGULAR){
             Parent parent = FXMLLoader.load(MainApp.class.getResource("principal-view.fxml"));
             Scene scene = new Scene(parent, 1360, 760);
             Stage stage = new Stage();
@@ -55,6 +55,14 @@ public class LoginController {
             stage.show();
         }
 
+    }
+    private void mostrarMensaje(String titulo, String header, String contenido, Alert.AlertType alertType) {
+
+        Alert aler = new Alert(alertType);
+        aler.setTitle(titulo);
+        aler.setHeaderText(header);
+        aler.setContentText(contenido);
+        aler.showAndWait();
     }
 
 }
