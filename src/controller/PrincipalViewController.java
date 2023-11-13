@@ -1,13 +1,19 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class PrincipalViewController {
 
@@ -23,6 +29,8 @@ public class PrincipalViewController {
     private Button btnAddActivity;
     @FXML
     private Button btnAddTask;
+    @FXML
+    private Button btnLogout;
     @FXML
     private Pane contentMain;
     private double proccessCurrentY = 0;
@@ -51,7 +59,14 @@ public class PrincipalViewController {
 
     }
 
-    public void onClickCrearProceso( ) {
+    public void onClickCrearProceso( ) throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(CrudProcesoController.class.getResource("/view/crearProceso-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Stage stage = new Stage();
+        stage.setTitle("Crear procesos");
+        stage.setScene(scene);
+        stage.show();
         Pane newPane = new Pane();
         newPane.setPrefSize(100, 100); // Tamaño preferido del nuevo Pane
         newPane.setStyle("-fx-background-color: gray;");
@@ -81,7 +96,14 @@ public class PrincipalViewController {
         });
     }
 
-    public void onClickAddActivity() {
+    public void onClickAddActivity() throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(CrudActividadController.class.getResource("/view/crearActividad-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Stage stage = new Stage();
+        stage.setTitle("Crear procesos");
+        stage.setScene(scene);
+        stage.show();
         HBox hbox = new HBox();
         Label actividad = new Label("Actividad");
         Button btnEdit, btnRemove;
@@ -129,8 +151,14 @@ public class PrincipalViewController {
 
     }
 
-    public void onClickAddTask() {
+    public void onClickAddTask() throws IOException {
 
+        FXMLLoader fxmlLoader = new FXMLLoader(CrudTareaController.class.getResource("/view/crearTarea-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Stage stage = new Stage();
+        stage.setTitle("Crear procesos");
+        stage.setScene(scene);
+        stage.show();
         HBox hbox = new HBox();
         Label tarea = new Label("Tarea");
         Button btnEdit, btnRemove;
@@ -176,5 +204,18 @@ public class PrincipalViewController {
             tarea.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20; -fx-text-fill: #1397D4");
             levelTask.setDisable(true);
         });
+    }
+
+
+    public void onLogoutAction(javafx.event.ActionEvent actionEvent) throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/view/login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Stage stage = new Stage();
+        stage.setTitle("Login");
+        stage.setScene(scene);
+        stage.initOwner(btnLogout.getScene().getWindow());
+        btnLogout.getScene().getWindow().hide();
+        stage.show();
     }
 }

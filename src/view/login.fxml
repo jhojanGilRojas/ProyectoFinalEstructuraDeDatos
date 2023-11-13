@@ -39,7 +39,7 @@
             </ImageView>
             <ImageView fitHeight="89.0" fitWidth="188.0" layoutX="14.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/user.png" />
+                  <Image url="@../resources/usuario.png" />
                </image>
             </ImageView>
             <Button fx:id="btnLogin" ellipsisString="" layoutX="299.0" layoutY="358.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="41.0" prefWidth="184.0" style="-fx-background-color: #1397D4;" text="LOGIN" textAlignment="CENTER" textFill="WHITE" wrapText="true">

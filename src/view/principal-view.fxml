@@ -77,7 +77,7 @@
             <Font name="SimSun" size="30.0" />
          </font>
       </Label>
-      <Button layoutX="1248.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="LOGOUT" textFill="#1397d4">
+      <Button fx:id="btnLogout" layoutX="1248.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutAction" style="-fx-background-color: #ffffff;" text="LOGOUT" textFill="#1397d4">
          <font>
             <Font name="SimSun" size="18.0" />
          </font>

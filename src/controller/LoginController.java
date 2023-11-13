@@ -13,6 +13,8 @@ import model.Usuario;
 
 import java.io.IOException;
 
+import static controller.AppController.INSTANCE;
+
 public class LoginController {
     @FXML
     private TextField emailField;
@@ -22,40 +24,31 @@ public class LoginController {
     private Button btnLogin;
 
     @FXML
-    protected void onLoginButtonClick() throws IOException {
+    protected void onLoginButtonClick() throws Exception {
 
         String email = emailField.getText();
         String password = passwordField.getText();
+        Usuario usuario = new Usuario(email,password,Rol.USUARIO_REGULAR);
+        Usuario userLogin = INSTANCE.getModel().iniciarSesion(usuario);
 
-        Usuario userLogin = INSTANCE.getModel().autenticar(email, password);
-
-        if(userLogin == null){
+        if (userLogin == null) {
             emailField.setText("");
             passwordField.setText("");
-            mostrarMensaje("Notificación usuario","Error","Credenciales incorrectas", Alert.AlertType.ERROR);
+            mostrarMensaje("Notificación usuario", "Error", "Credenciales incorrectas", Alert.AlertType.ERROR);
 
-        }else if(userLogin.getRol() == Rol.U_REGULAR){
-            Parent parent = FXMLLoader.load(MainApp.class.getResource("principal-view.fxml"));
-            Scene scene = new Scene(parent, 1360, 760);
+        } else{
+
+            FXMLLoader fxmlLoader = new FXMLLoader(PrincipalViewController.class.getResource("/view/principal-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1400, 700);
             Stage stage = new Stage();
             stage.setTitle("USUARIO");
             stage.setScene(scene);
             stage.initOwner(btnLogin.getScene().getWindow());
             btnLogin.getScene().getWindow().hide();
-
             stage.show();
-        }else{
-            Parent parent = FXMLLoader.load(MainApp.class.getResource("principal-view.fxml"));
-            Scene scene = new Scene(parent, 1360, 760);
-            Stage stage = new Stage();
-            stage.setTitle("ADMINISTRADOR");
-            stage.setScene(scene);
-            stage.initOwner(btnLogin.getScene().getWindow());
-            btnLogin.getScene().getWindow().hide();
-            stage.show();
-        }
-
+            }
     }
+
     private void mostrarMensaje(String titulo, String header, String contenido, Alert.AlertType alertType) {
 
         Alert aler = new Alert(alertType);

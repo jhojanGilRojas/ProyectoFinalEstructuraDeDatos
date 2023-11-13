@@ -12,12 +12,7 @@ public class Usuario {
         this.rol = rol;
     }
 
-    private void autenticarse(String userId, String password, Rol rol){
 
-        if (this.userId.equals(userId) && this.password.equals(password) && this.rol.equals(rol)){
-            System.out.println("Usuario Autenticado");
-        }
-    }
 
     public String getUserId() {
         return userId;
@@ -42,4 +37,15 @@ public class Usuario {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return userId.equals(usuario.userId) && password.equals(usuario.password);
+    }
+
 }
