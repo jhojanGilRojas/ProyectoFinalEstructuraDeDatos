@@ -96,7 +96,7 @@ public class ListaSimple<T> implements Iterable<T>{
         throw new RuntimeException("�ndice no v�lido");
     }
 
-    private Nodo<T> obtenerNodo(int indice) {
+    public Nodo<T> obtenerNodo(int indice) {
 
         if(indice>=0 && indice<tamano) {
 
@@ -111,6 +111,44 @@ public class ListaSimple<T> implements Iterable<T>{
 
         return null;
     }
+
+    public T eliminar(T dato){
+        Nodo<T> nodo = nodoPrimero;
+        Nodo<T> previo = null;
+        Nodo<T> siguiente = null;
+        boolean encontrado = false;
+
+        //buscar el nodo previo
+        while(nodo!=null) {
+            if( nodo.getValorNodo() == dato ) {
+                encontrado = true;
+                break;
+            }
+            previo = nodo;
+            nodo = nodo.getSiguienteNodo();
+        }
+
+        if(encontrado) {
+            siguiente = nodo.getSiguienteNodo();
+            if( previo==null ) {
+                nodoPrimero = siguiente;
+            }else {
+                previo.setSiguienteNodo(siguiente);
+            }
+
+            if(siguiente==null) {
+//				nodoUltimo = previo;
+            }else {
+                nodo.setSiguienteNodo(null);
+            }
+
+            nodo = null;
+            tamano--;
+            return dato;
+        }
+        throw new RuntimeException("El elemento no existe");
+    }
+
 
     public void insertarEnPosicion(T dato, int posicion) {
         Nodo<T> nuevoNodo = new Nodo<>(dato);
@@ -133,7 +171,7 @@ public class ListaSimple<T> implements Iterable<T>{
         tamano++;
     }
 
-    private boolean estaVacia() { return (nodoPrimero == null)? true:false;
+    public boolean estaVacia() { return (nodoPrimero == null)? true:false;
     }
 
     @Override

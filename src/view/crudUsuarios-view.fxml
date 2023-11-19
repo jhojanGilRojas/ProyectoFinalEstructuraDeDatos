@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: #1397D4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CrudUsuariosController">
+   <children>
+      <Label layoutX="475.0" layoutY="14.0" text="Proccess Management Systems-UQ" textFill="WHITE">
+         <font>
+            <Font name="SimSun" size="30.0" />
+         </font>
+      </Label>
+      <Pane focusTraversable="true" layoutX="100.0" layoutY="84.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Label alignment="CENTER" layoutX="395.0" layoutY="24.0" prefHeight="35.0" prefWidth="410.0" text="Control de usuarios" textFill="#1397d4">
+               <font>
+                  <Font name="SimSun" size="30.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblUsuarios" layoutX="633.0" layoutY="90.0" prefHeight="401.0" prefWidth="483.0">
+              <columns>
+                <TableColumn fx:id="columnUsuario" prefWidth="162.0" text="Usuario" />
+                <TableColumn fx:id="columnContraseña" prefWidth="166.0" text="Contraseña" />
+                  <TableColumn fx:id="columnRol" prefWidth="154.0" text="Rol" />
+              </columns>
+            </TableView>
+            <TextField fx:id="tfUsuario" alignment="CENTER" layoutX="242.0" layoutY="125.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TextField>
+            <TextField fx:id="tfContrasena" alignment="CENTER" layoutX="245.0" layoutY="219.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TextField>
+            <ComboBox fx:id="tfRol" layoutX="245.0" layoutY="307.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;" />
+            <Label layoutX="85.0" layoutY="315.0" prefHeight="20.0" prefWidth="70.0" text="Rol">
+               <font>
+                  <Font name="SimSun" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="85.0" layoutY="227.0" prefHeight="23.0" prefWidth="129.0" text="Contraseña">
+               <font>
+                  <Font name="SimSun" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="85.0" layoutY="133.0" prefHeight="23.0" prefWidth="87.0" text="Usuario">
+               <font>
+                  <Font name="SimSun" size="22.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnCrear" ellipsisString="" layoutX="87.0" layoutY="437.0" mnemonicParsing="false" onAction="#onCrearClick" prefHeight="43.0" prefWidth="137.0" style="-fx-background-color: #1397D4;" text="CREAR" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="SimSun" size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnEditar" ellipsisString="" layoutX="280.0" layoutY="437.0" mnemonicParsing="false" onAction="#onEditarClick" prefHeight="43.0" prefWidth="137.0" style="-fx-background-color: #1397D4;" text="EDITAR" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="SimSun" size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnEliminar" ellipsisString="" layoutX="463.0" layoutY="437.0" mnemonicParsing="false" onAction="#onEliminarClick" prefHeight="43.0" prefWidth="137.0" style="-fx-background-color: #1397D4;" text="ELIMINAR" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="SimSun" size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnVolver" layoutX="1070.0" layoutY="20.0" mnemonicParsing="false" onAction="#onVolverClick" prefHeight="43.0" prefWidth="46.0" />
+         </children>
+      </Pane>
+   </children>
+   <padding>
+      <Insets left="30.0" />
+   </padding>
+</Pane>

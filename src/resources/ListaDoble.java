@@ -13,13 +13,14 @@ public class ListaDoble<T> implements Iterable<T> {
 
     private NodoDoble<T> nodoPrimero;
     private NodoDoble<T> nodoUltimo;
-    private int tamanio;
+    private int tamano;
+
 
 
     public ListaDoble() {
         nodoPrimero = null;
         nodoPrimero = null;
-        tamanio = 0;
+        tamano = 0;
     }
 
     //Metodos basicos
@@ -38,11 +39,11 @@ public class ListaDoble<T> implements Iterable<T> {
             nuevoNodo.setSiguienteNodo(nodoPrimero);
             nodoPrimero = nuevoNodo;
         }
-        tamanio++;
+        tamano++;
     }
 
     //Agregar al final de la lista
-    public void  agregarfinal(T valorNodo) {
+    public void  agregarFinal(T valorNodo) {
 
         NodoDoble<T> nuevoNodo = new NodoDoble<>(valorNodo);
 
@@ -56,7 +57,7 @@ public class ListaDoble<T> implements Iterable<T> {
             nodoUltimo.setSiguienteNodo(nuevoNodo);
             nodoUltimo = nuevoNodo;
         }
-        tamanio++;
+        tamano++;
     }
 
     /**
@@ -80,7 +81,7 @@ public class ListaDoble<T> implements Iterable<T> {
                 actual.getAnteriorNodo().setSiguienteNodo(nuevo);
                 actual.setAnteriorNodo(nuevo);
 
-                tamanio++;
+                tamano++;
             }
         }
     }
@@ -91,7 +92,7 @@ public class ListaDoble<T> implements Iterable<T> {
      */
     public void borrarLista() {
         nodoPrimero = nodoUltimo = null;
-        tamanio = 0;
+        tamano = 0;
     }
 
 
@@ -121,7 +122,7 @@ public class ListaDoble<T> implements Iterable<T> {
 
     //Verificar si indice es valido
     private boolean indiceValido(int indice) {
-        if( indice>=0 && indice<tamanio ) {
+        if( indice>=0 && indice<tamano ) {
             return true;
         }
         throw new RuntimeException("�ndice no v�lido");
@@ -138,6 +139,7 @@ public class ListaDoble<T> implements Iterable<T> {
     /**
      * Imprime en consola la lista enlazada
      */
+
     public void imprimirLista() {
 
         NodoDoble<T> aux = nodoPrimero;
@@ -158,6 +160,36 @@ public class ListaDoble<T> implements Iterable<T> {
         System.out.println();
 
     }
+    public void insertarEnPosicion(T dato, int posicion) {
+        NodoDoble<T> nuevoNodo = new NodoDoble<>(dato);
+
+        if (nodoPrimero == null) {
+            // Si la lista está vacía, el nuevo nodo se convierte en el inicio.
+            nodoPrimero = nodoUltimo = nuevoNodo;
+        } else if (posicion <= 0) {
+            // Insertar al principio (posición 0)
+            nuevoNodo.setSiguienteNodo(nodoPrimero);
+            nodoPrimero.setAnteriorNodo(nuevoNodo);
+            nodoPrimero = nuevoNodo;
+        } else if (posicion >= tamano) {
+            // Insertar al final o en una posición mayor o igual al tamaño
+            nuevoNodo.setAnteriorNodo(nodoUltimo);
+            nodoUltimo.setSiguienteNodo(nuevoNodo);
+            nodoUltimo = nuevoNodo;
+        } else {
+            // Insertar en una posición intermedia
+            NodoDoble<T> nodoActual = nodoPrimero;
+            for (int i = 0; i < posicion - 1 && nodoActual.getSiguienteNodo() != null; i++) {
+                nodoActual = nodoActual.getSiguienteNodo();
+            }
+            nuevoNodo.setSiguienteNodo(nodoActual.getSiguienteNodo());
+            nuevoNodo.setAnteriorNodo(nodoActual);
+            nodoActual.getSiguienteNodo().setAnteriorNodo(nuevoNodo);
+            nodoActual.setSiguienteNodo(nuevoNodo);
+        }
+        tamano++;
+    }
+
 
 
     //Eliminar dado el valor de un nodo
@@ -188,7 +220,7 @@ public class ListaDoble<T> implements Iterable<T> {
             }
 
             nodo=null;
-            tamanio--;
+            tamano--;
 
             return dato;
         }
@@ -213,7 +245,7 @@ public class ListaDoble<T> implements Iterable<T> {
                 nodoPrimero.setAnteriorNodo(null);
             }
 
-            tamanio--;
+            tamano--;
             return valor;
         }
 
@@ -225,7 +257,7 @@ public class ListaDoble<T> implements Iterable<T> {
 
         if( !estaVacia() ) {
             T valor = nodoUltimo.getValorNodo();
-            NodoDoble<T> prev = obtenerNodo(tamanio-2);
+            NodoDoble<T> prev = obtenerNodo(tamano-2);
             nodoUltimo = prev;
 
             if(nodoUltimo==null) {
@@ -234,7 +266,7 @@ public class ListaDoble<T> implements Iterable<T> {
                 prev.setSiguienteNodo(null);
             }
 
-            tamanio--;
+            tamano--;
             return valor;
         }
 
@@ -249,7 +281,7 @@ public class ListaDoble<T> implements Iterable<T> {
      */
     private NodoDoble<T> obtenerNodo(int indice) {
 
-        if(indice>=0 && indice<tamanio) {
+        if(indice>=0 && indice<tamano) {
 
             NodoDoble<T> nodo = nodoPrimero;
 
@@ -268,7 +300,7 @@ public class ListaDoble<T> implements Iterable<T> {
      * @param dato Dato a buscar
      * @return Nodo
      */
-    private NodoDoble<T> buscarNodo(T dato){
+    public NodoDoble<T> buscarNodo(T dato){
 
         NodoDoble<T> aux = nodoPrimero;
 
@@ -397,7 +429,7 @@ public class ListaDoble<T> implements Iterable<T> {
             }
         }
         public void add(T e) {
-            agregarfinal(e);
+            agregarFinal(e);
         }
 
 
@@ -426,11 +458,11 @@ public class ListaDoble<T> implements Iterable<T> {
     public void setNodoPrimero(NodoDoble<T> nodoPrimero) {
         this.nodoPrimero = nodoPrimero;
     }
-    public int getTamanio() {
-        return tamanio;
+    public int getTamano() {
+        return tamano;
     }
-    public void setTamanio(int tamanio) {
-        this.tamanio = tamanio;
+    public void setTamano(int tamanio) {
+        this.tamano = tamanio;
     }
     public NodoDoble<T> getNodoUltimo() {
         return nodoUltimo;

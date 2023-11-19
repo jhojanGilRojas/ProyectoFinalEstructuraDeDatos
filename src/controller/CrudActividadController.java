@@ -1,9 +1,12 @@
 package controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import model.Insercion;
 
 public class CrudActividadController {
 
@@ -20,11 +23,12 @@ public class CrudActividadController {
     private TextField tfName;
 
     @FXML
-    private TextField tfTimeMax;
+    private ComboBox cbInsercion;
 
     @FXML
-    private TextField tfTimeMin;
-
+    void initialize(){
+        cbInsercion.getItems().setAll(Insercion.values());
+    }
     @FXML
     void onCancelarClick(ActionEvent event) {
 

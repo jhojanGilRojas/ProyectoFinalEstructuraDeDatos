@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
@@ -27,16 +28,6 @@
                </font>
             </Label>
             <Label layoutX="144.0" layoutY="159.0" text="ID">
-               <font>
-                  <Font name="SimSun" size="22.0" />
-               </font>
-            </Label>
-            <Label layoutX="89.0" layoutY="226.0" text="Tiempo mínimo">
-               <font>
-                  <Font name="SimSun" size="22.0" />
-               </font>
-            </Label>
-            <Label layoutX="89.0" layoutY="292.0" text="Tiempo máximo">
                <font>
                   <Font name="SimSun" size="22.0" />
                </font>
@@ -67,22 +58,12 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <TextField fx:id="tfTimeMin" alignment="CENTER" layoutX="316.0" layoutY="218.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;">
+            <ComboBox fx:id="cbInsercion" layoutX="316.0" layoutY="217.0" prefHeight="35.0" prefWidth="300.0" style="-fx-background-color: #1397D4;" />
+            <Label layoutX="33.0" layoutY="223.0" text="Donde desea insertarla">
                <font>
-                  <Font size="18.0" />
+                  <Font name="SimSun" size="22.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </TextField>
-            <TextField fx:id="tfTimeMax" alignment="CENTER" layoutX="316.0" layoutY="283.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </TextField>
+            </Label>
          </children>
       </Pane>
    </children>
