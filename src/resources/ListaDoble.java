@@ -279,7 +279,7 @@ public class ListaDoble<T> implements Iterable<T> {
      * @param indice �ndice para obtener el Nodo
      * @return Nodo objeto
      */
-    private NodoDoble<T> obtenerNodo(int indice) {
+    public NodoDoble<T> obtenerNodo(int indice) {
 
         if(indice>=0 && indice<tamano) {
 

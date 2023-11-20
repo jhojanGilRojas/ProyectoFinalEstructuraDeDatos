@@ -77,6 +77,10 @@ public class CrudProcesoController {
     }
 
     private void limpiarCampos() {
+        tfId.setText(null);
+        tfName.setText(null);
+        tfTimeMin.setText(null);
+        tfTimeMax.setText(null);
     }
 
     private void mostrarMensaje(String titulo, String header, String contenido, Alert.AlertType alertType) {

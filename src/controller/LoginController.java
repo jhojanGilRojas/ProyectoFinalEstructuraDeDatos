@@ -28,7 +28,7 @@ public class LoginController {
 
         String email = emailField.getText();
         String password = passwordField.getText();
-        Usuario usuario = new Usuario(email,password,Rol.USUARIO_REGULAR);
+        Usuario usuario =INSTANCE.getModel().buscarUsuario(email,password);
         Usuario userLogin = INSTANCE.getModel().iniciarSesion(usuario);
 
         if (userLogin == null) {
@@ -37,7 +37,7 @@ public class LoginController {
             mostrarMensaje("Notificación usuario", "Error", "Credenciales incorrectas", Alert.AlertType.ERROR);
 
         } else{
-
+            INSTANCE.getModel().setUsuarioLogueado(usuario);
             FXMLLoader fxmlLoader = new FXMLLoader(PrincipalViewController.class.getResource("/view/principal-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1400, 700);
             Stage stage = new Stage();

@@ -89,6 +89,7 @@ public class CrudUsuariosController {
             if (usuario!=null) {
                 tblUsuarios.getItems().clear();
                 tblUsuarios.setItems(getListaUsuariosData());
+                limpiarCampos();
                 mostrarMensaje("Notificación de Administrador", "Información", "El usuario ha sido creado correctamente", Alert.AlertType.INFORMATION);
             }
             else {
@@ -107,11 +108,18 @@ public class CrudUsuariosController {
         Rol rol = tfRol.getValue();
         if (validarDatos(user,password,rol)){
             Usuario usuarioNuevo = new Usuario(user,password,rol);
+            Usuario usuarioActualizado =INSTANCE.getModel().actualizarUsuario(usuarioNuevo,usuarioSelecionado.getUserId());
+
+            if (usuarioActualizado!= null){
             limpiarCampos();
-            INSTANCE.getModel().actualizarUsuario(usuarioNuevo,usuarioSelecionado.getUserId());
             tblUsuarios.refresh();
-            mostrarMensaje("Notificación de Administrador","Información","El usuario ha sido actualizado correctamente", Alert.AlertType.INFORMATION);
+            mostrarMensaje("Notificación de Administrador","Información","El usuario ha sido actualizado correctamente", Alert.AlertType.INFORMATION);}
+            else {
+                llenarCampos(usuarioSelecionado);
+                mostrarMensaje("Notificación de Administrador", "Error", "El usuario ya existe.", Alert.AlertType.WARNING);
+            }
         }else {
+            mostrarMensaje("Informacion administrador","ERROR","Seleccione el usuario que desea editar", Alert.AlertType.ERROR);
             limpiarCampos();
         }
     }

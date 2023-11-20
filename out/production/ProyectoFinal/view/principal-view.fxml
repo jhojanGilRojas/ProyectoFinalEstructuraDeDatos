@@ -15,7 +15,7 @@
       <Pane fx:id="contentMain" layoutX="7.0" layoutY="61.0" prefHeight="631.0" prefWidth="1319.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <Button fx:id="btnAddTask" layoutX="1076.0" layoutY="577.0" mnemonicParsing="false" onAction="#onClickAddTask" prefHeight="32.0" prefWidth="31.0" />
-            <ScrollPane layoutX="95.0" layoutY="84.0" prefHeight="480.0" prefWidth="300.0">
+            <ScrollPane fx:id="scrollProceso" layoutX="95.0" layoutY="84.0" prefHeight="480.0" prefWidth="300.0">
                <content>
                   <AnchorPane fx:id="contentProccess" prefHeight="484.0" prefWidth="282.0">
                      <children>
@@ -24,13 +24,13 @@
                   </AnchorPane>
                </content></ScrollPane>
             <Separator layoutX="442.0" layoutY="74.0" orientation="VERTICAL" prefHeight="489.0" prefWidth="6.0" style="-fx-background-color: #1397D4;" />
-            <ScrollPane layoutX="510.0" layoutY="84.0" prefHeight="480.0" prefWidth="300.0">
+            <ScrollPane fx:id="scrollActividad" layoutX="510.0" layoutY="84.0" prefHeight="480.0" prefWidth="300.0">
                <content>
                   <AnchorPane fx:id="contentActivies" prefHeight="480.0" prefWidth="280.0" />
                </content>
             </ScrollPane>
             <Separator layoutX="861.0" layoutY="74.0" orientation="VERTICAL" prefHeight="489.0" prefWidth="6.0" style="-fx-background-color: #1397D4;" />
-            <ScrollPane layoutX="934.0" layoutY="84.0" prefHeight="480.0" prefWidth="300.0">
+            <ScrollPane fx:id="scrollTarea" layoutX="934.0" layoutY="84.0" prefHeight="480.0" prefWidth="300.0">
                <content>
                   <AnchorPane fx:id="contentTaks" prefHeight="480.0" prefWidth="282.0" />
                </content>

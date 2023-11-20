@@ -11,13 +11,13 @@ public class Actividad {
     private String descripcion;
     private boolean obligatoriedad;
 
-    Cola<Tarea> tareas = new Cola<>();
+    Cola<Tarea> tareas;
 
-    public Actividad(String nombre, String descripcion, boolean obligatoriedad, Cola<Tarea> tareas) {
+    public Actividad(String nombre, String descripcion, boolean obligatoriedad) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.obligatoriedad = obligatoriedad;
-        this.tareas = tareas;
+        this.tareas = new Cola<>();
     }
 
     public Actividad() {

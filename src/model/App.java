@@ -13,8 +13,10 @@ public class App {
     private ListaSimple <Proceso>listaProcesos;
 
     Scanner leer = new Scanner(System.in);
+    Usuario usuarioLogueado;
 
     private ListaSimple<Usuario> listaUsuarios;
+
 
     public App() {
         this.listaProcesos = new ListaSimple<>();
@@ -24,9 +26,13 @@ public class App {
 
     private void inicializarDatos() {
         listaUsuarios.agregarInicio(new Usuario("jhojan","123",Rol.ADMINISTRADOR));
+        Proceso proceso = new Proceso("12","Desayunos",20,30);
+        proceso.crearActividad("Prepara Cafe","hacer el cafe",true);
+        listaProcesos.agregarInicio(proceso);
     }
 
     public Usuario iniciarSesion(Usuario usuario) throws Exception {
+
         Nodo<Usuario> nodoUsuario = listaUsuarios.buscarNodo(usuario);
 
         if (nodoUsuario != null) {
@@ -238,17 +244,16 @@ public class App {
             Usuario usuario = listaUsuarios.obtenerNodo(i).getValorNodo();
             if (usuario.getUserId().equals(id)){
                 for (int j = 0; j < listaUsuarios.getTamano(); j++) {
-                    Usuario usuario2 = listaUsuarios.obtenerNodo(i).getValorNodo();
+                    Usuario usuario2 = listaUsuarios.obtenerNodo(j).getValorNodo();
                     if (usuario2.getUserId().equals(usuarioNuevo.getUserId())){
                         return null;
                     }
-                    else {
-                        usuario.setUserId(usuarioNuevo.getUserId());
-                        usuario.setPassword(usuarioNuevo.getPassword());
-                        usuario.setRol(usuarioNuevo.getRol());
-                        return usuario;
-                    }
+
                 }
+                usuario.setUserId(usuarioNuevo.getUserId());
+                usuario.setPassword(usuarioNuevo.getPassword());
+                usuario.setRol(usuarioNuevo.getRol());
+                return usuario;
             }
 
         }
@@ -262,5 +267,27 @@ public class App {
                 listaUsuarios.eliminar(usuario);
             }
         }
+    }
+
+
+    public Proceso getProcesoSelecionado(Proceso procesoSelecionado) {
+        return procesoSelecionado;
+    }
+
+    public Usuario buscarUsuario(String email,String password) {
+        for (int i = 0; i < listaUsuarios.getTamano(); i++) {
+            Usuario usuario = listaUsuarios.obtenerNodo(i).getValorNodo();
+            if (usuario.getUserId().equals(email)&&usuario.getPassword().equals(password)){
+                return usuario;
+            }
+        }
+        return null;
+    }
+    public Usuario getUsuarioLogueado() {
+        return usuarioLogueado;
+    }
+
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
+        this.usuarioLogueado = usuarioLogueado;
     }
 }
