@@ -2,6 +2,7 @@ package controller;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -46,6 +47,8 @@ public class PrincipalViewController {
     private Button btnEliminarProceso;
     @FXML
     private Button btnEditarProceso;
+    @FXML
+    private Button btnBuscar;
 
     @FXML
     private Button btnCrudUsuarios;
@@ -171,8 +174,15 @@ public class PrincipalViewController {
             view1.setFitWidth(30);
             view1.setPreserveRatio(true);
 
+            Image img2 = new Image("/resources/buscar.png");
+            ImageView view2 = new ImageView(img2);
+            view2.setFitHeight(20);
+            view2.setFitWidth(20);
+            view2.setPreserveRatio(true);
+
             btnAddActivity.setGraphic(view);
             btnAddTask.setGraphic(view1);
+            btnBuscar.setGraphic(view2);
 
     }
 /////////////////////////////////////CRUD PROCESOS//////////////////////////////////////////////////////////////
@@ -543,5 +553,8 @@ public class PrincipalViewController {
 
     public static Proceso getProcesoSelecionado() {
         return procesoSelecionado;
+    }
+
+    public void onClickBuscar(ActionEvent actionEvent) {
     }
 }
