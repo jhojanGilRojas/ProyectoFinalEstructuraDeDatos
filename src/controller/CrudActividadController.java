@@ -21,8 +21,6 @@ public class CrudActividadController {
     int posicion = 0;
     @FXML
     private Button btnCancelar;
-
-
     @FXML
     private TextField tfDescription;
 
@@ -66,14 +64,9 @@ public class CrudActividadController {
             Actividad actividad = procesoSelecionado.crearActividadAlFinal(name,descripcion,obligatoriedad);
             if (actividad!=null){
                 mostrarMensaje("Notificación actividad","Información","La Actividad ha sido creada correctamente", Alert.AlertType.INFORMATION);
-                FXMLLoader fxmlLoader = new FXMLLoader(PrincipalViewController.class.getResource("/view/principal-view.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 1400, 700);
                 Stage stage = new Stage();
-                stage.setTitle("USUARIO");
-                stage.setScene(scene);
                 stage.initOwner(mbtnInsercion.getScene().getWindow());
                 mbtnInsercion.getScene().getWindow().hide();
-                stage.show();
             }else{
                 mostrarMensaje("Notificación actividad","ERROR","La Actividad ya existe", Alert.AlertType.ERROR);
                 limpiarCampos();
@@ -179,17 +172,9 @@ public class CrudActividadController {
                     if (actividad != null) {
                         mostrarMensaje("Notificación actividad", "Información", "La Actividad ha sido creada correctamente", Alert.AlertType.INFORMATION);
                         stage.close();
-                        FXMLLoader fxmlLoader = new FXMLLoader(PrincipalViewController.class.getResource("/view/principal-view.fxml"));
-                        Scene scene1 = null;
-                        try {
-                            scene1 = new Scene(fxmlLoader.load(), 1400, 700);
-                            Stage stage1 = new Stage();
-                            stage1.setTitle("USUARIO");
-                            stage1.setScene(scene1);
-                            stage1.show();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+
+                        stage.initOwner(btnCancelar.getScene().getWindow());
+                        btnCancelar.getScene().getWindow().hide();
 
                     } else {
                         mostrarMensaje("Notificación actividad", "ERROR", "La Actividad ya existe", Alert.AlertType.ERROR);
@@ -217,15 +202,9 @@ public class CrudActividadController {
             Actividad actividad1 = new Actividad(name,descripcion,obligatoriedad);
             Actividad actividad = procesoSelecionado.crearActividadDespuesDeUltima(actividad1);
             if (actividad!=null){
-                mostrarMensaje("Notificación actividad","Información","La Actividad ha sido creada correctamente", Alert.AlertType.INFORMATION);
-                FXMLLoader fxmlLoader = new FXMLLoader(PrincipalViewController.class.getResource("/view/principal-view.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 1400, 700);
                 Stage stage = new Stage();
-                stage.setTitle("USUARIO");
-                stage.setScene(scene);
                 stage.initOwner(mbtnInsercion.getScene().getWindow());
                 mbtnInsercion.getScene().getWindow().hide();
-                stage.show();
             }else{
                 mostrarMensaje("Notificación actividad","ERROR","La Actividad ya existe", Alert.AlertType.ERROR);
                 limpiarCampos();
@@ -244,14 +223,9 @@ public class CrudActividadController {
         Actividad actividad = procesoSelecionado.crearActividad(name,descripcion,obligatoriedad);
         if (actividad!=null){
             mostrarMensaje("Notificación actividad","Información","La Actividad ha sido creada correctamente", Alert.AlertType.INFORMATION);
-            FXMLLoader fxmlLoader = new FXMLLoader(PrincipalViewController.class.getResource("/view/principal-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1400, 700);
             Stage stage = new Stage();
-            stage.setTitle("USUARIO");
-            stage.setScene(scene);
             stage.initOwner(mbtnInsercion.getScene().getWindow());
             mbtnInsercion.getScene().getWindow().hide();
-            stage.show();
         }else{
             mostrarMensaje("Notificación actividad","ERROR","La Actividad ya existe", Alert.AlertType.ERROR);
             limpiarCampos();
@@ -265,18 +239,11 @@ public class CrudActividadController {
         }
         return false;
     }
-
-
     @FXML
     void onCancelarClick(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(PrincipalViewController.class.getResource("/view/principal-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1400, 700);
         Stage stage = new Stage();
-        stage.setTitle("USUARIO");
-        stage.setScene(scene);
         stage.initOwner(btnCancelar.getScene().getWindow());
         btnCancelar.getScene().getWindow().hide();
-        stage.show();
     }
     private void limpiarCampos() {
         tfName.setText("");

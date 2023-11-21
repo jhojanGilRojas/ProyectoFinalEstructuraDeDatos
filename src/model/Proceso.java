@@ -15,12 +15,19 @@ public class Proceso {
     private int tiempoMinimo;
     private int tiempoMaximo;
 
-    public Proceso(String id, String nombre, int tiempoMinimo, int tiempoMaximo) {
+    public Proceso(String id, String nombre) {
         this.id = id;
         this.nombre = nombre;
         this.listaActividades = listaActividades;
-        this.tiempoMinimo = tiempoMinimo;
-        this.tiempoMaximo = tiempoMaximo;
+        tiempoMinimo = 0;
+        tiempoMaximo = 0;
+    }
+    public Proceso(String id, String nombre,  int tiempoMin,int tiempoMax) {
+        this.id = id;
+        this.nombre = nombre;
+        this.listaActividades = listaActividades;
+        tiempoMinimo = tiempoMin;
+        tiempoMaximo = tiempoMax;
     }
 
     public Actividad buscarActividad(Actividad actividad) {
@@ -123,7 +130,7 @@ public class Proceso {
 
         Actividad nuevaActividad = new Actividad(nombre, descripcion, obligatoriedad);
         listaActividades.agregarInicio(nuevaActividad);
-        System.out.println("Actividad creada con éxito");
+        //System.out.println("Actividad creada con éxito");
         indice = listaActividades.obtenerPosicionNodo(nuevaActividad);
         return nuevaActividad;
     }
@@ -219,6 +226,30 @@ public class Proceso {
             actividadesData.add(actividad);
         }
         return actividadesData;
+    }
+    public Actividad actualizarActividad(Actividad actividad, String nombre) {
+        Actividad actividadActualizada = null;
+
+        for (int i = 0; i < listaActividades.getTamano(); i++) {
+            Actividad actividadExistente = listaActividades.obtenerValorNodo(i);
+
+            if (actividadExistente.getNombre().equals(nombre)) {
+                // Se encontró la actividad que coincide con el nombre proporcionado
+                actividadActualizada = actividadExistente;
+                actividadActualizada.setDescripcion(actividad.getDescripcion());
+                actividadActualizada.setObligatoriedad(actividad.isObligatoriedad());
+                actividadActualizada.setTareas(actividad.getTareas());
+                break;  // Terminar el bucle después de encontrar la actividad
+            }
+        }
+
+        if (actividadActualizada != null) {
+            System.out.println("Actividad actualizada con éxito");
+        } else {
+            System.out.println("No se encontró ninguna actividad con el nombre proporcionado");
+        }
+
+        return actividadActualizada;
     }
 
 

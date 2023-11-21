@@ -59,7 +59,7 @@ public class Cola<T> {
 	 * @return true si est� vac�a
 	 */
 	public boolean estaVacia() {
-		return nodoPrimero == null;
+		return tamanio == 0;
 	}
 
 	/**

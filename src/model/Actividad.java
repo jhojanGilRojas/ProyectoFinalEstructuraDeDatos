@@ -2,6 +2,7 @@ package model;
 
 import resources.Cola;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class Actividad {
     }
 
     public Actividad() {
-
+        this.tareas = new Cola<>();
     }
 
     public String getNombre() {
@@ -49,7 +50,7 @@ public class Actividad {
     }
 
     public Cola<Tarea> getTareas() {
-        return tareas;
+        return this.tareas;
     }
 
     public void setTareas(Cola<Tarea> tareas) {
@@ -78,5 +79,41 @@ public class Actividad {
     public int hashCode() {
         return Objects.hash(nombre, descripcion, obligatoriedad, tareas);
     }
+
+    public Tarea crearTarea(Tarea tarea){
+        getTareas().encolar(tarea);
+        return tarea;
+    }
+
+    public ArrayList<Tarea> convertirCola(Cola<Tarea> tareas) {
+        ArrayList<Tarea> listaTareas = new ArrayList<>();
+        while (!tareas.estaVacia()) {
+            listaTareas.add(tareas.desencolar());
+        }
+        for (int j = 0; j < listaTareas.size(); j++) {
+            getTareas().encolar(listaTareas.get(j));
+        }
+        return listaTareas;
+    }
+
+    public Tarea actualizarTarea(Tarea tarea, String nombreTareaVieja) {
+        Cola colaAux = new Cola();
+        while (!tareas.estaVacia()){
+            Tarea tareaI = tareas.desencolar();
+            colaAux.encolar(tareaI);
+
+            if(tareaI.getNombre().equals(nombreTareaVieja)){
+                tareaI.setNombre(tarea.getNombre());
+                tareaI.setDescripcion(tarea.getNombre());
+                tareaI.setObligatoriedad(tarea.isObligatoriedad());
+                tareaI.setTiempo(tarea.getTiempo());
+                return tareaI;
+            }
+        }
+        tareas = colaAux;
+        return null;
+    }
+
+
 }
 

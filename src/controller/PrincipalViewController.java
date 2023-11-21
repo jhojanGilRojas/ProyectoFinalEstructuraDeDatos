@@ -2,19 +2,22 @@ package controller;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Actividad;
-import model.Proceso;
-import model.Rol;
+import model.*;
+import resources.Cola;
 
 import static controller.AppController.INSTANCE;
 import java.io.IOException;
@@ -57,63 +60,83 @@ public class PrincipalViewController {
     @FXML
     Pane paneSeleccionado;
     static Proceso procesoSelecionado;
+
+    static Actividad actividadSeleccionada;
+    static Tarea tareaSeleccionada;
+
     private double proccessCurrentY = 0;
     private double activiesCurrentY = 0;
     private double taskCurrentY = 0;
     private int n = 0;
-    private  int i = 0;
+//   private  int i = 0;
     int changeColor = 0;
+
+    int changeColorActivity = 0;
+    int changeColorTask = 0;
 
     @FXML
     void initialize() {
-            ArrayList<Proceso> procesosData = INSTANCE.getModel().getListaProcesosArray();
-            for (Proceso proceso : procesosData) {
-                if (proceso != null) {
-                    Pane newPane = new Pane();
-                    newPane.setPrefSize(120, 100); // Tamaño preferido del nuevo Pane
-                    Label name;
-                    Label id;
-                    Label timeMin;
-                    Label timeMax;
-                    newPane.setStyle("-fx-background-color: gray;");
-                    n = n + 1;
-                    Label text = new Label("Proceso " + n);
-                    name = new Label("Nombre: " + proceso.getNombre());
-                    id = new Label("Id: " + proceso.getId());
-                    timeMin = new Label(("Tiempo mínimo: " + proceso.getTiempoMinimo()));
-                    timeMax = new Label(("Tiempo máximo: " + proceso.getTiempoMaximo()));
+        ArrayList<Proceso> procesosData = INSTANCE.getModel().getListaProcesosArray();
+        for (Proceso proceso : procesosData) {
+            if (proceso != null) {
+                Pane newPane = new Pane();
+                newPane.setPrefSize(230, 150); // Tamaño preferido del nuevo Pane
+                Label name;
+                Label id;
+                Label timeMin;
+                Label timeMax;
+                newPane.setStyle("-fx-background-color: #dbdad7;");
+                n = n + 1;
+                Label text = new Label("Proceso " + n);
+                name = new Label("Nombre: " + proceso.getNombre());
+                id = new Label("Id: " + proceso.getId());
+                timeMin = new Label(("Tiempo mínimo: " + proceso.getTiempoMinimo()));
+                timeMax = new Label(("Tiempo máximo: " + proceso.getTiempoMaximo()));
+
+                //estilos
+                text.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 24");
+                name.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 24");
+                id.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 24");
+                timeMax.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 24");
+                timeMin.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 24");
 
 
-                    // Posicionar el nuevo Pane debajo del último
-                    newPane.setLayoutY(proccessCurrentY);
-                    proccessCurrentY += newPane.getPrefHeight() + 10; // 10 es el espacio entre los Pane
-                    newPane.setId("pane" + n);
-                    newPane.getChildren().addAll(text, name, id, timeMin, timeMax);
-                    name.setLayoutY(15);
-                    id.setLayoutY(40);
-                    timeMin.setLayoutY(60);
-                    timeMax.setLayoutY(80);
+                // Posicionar el nuevo Pane debajo del último
+                newPane.setLayoutY(proccessCurrentY);
+                proccessCurrentY += newPane.getPrefHeight() + 10; // 10 es el espacio entre los Pane
+                newPane.setId("pane" + n);
+                newPane.getChildren().addAll(name, id, timeMin, timeMax);
+                name.setLayoutY(15);
+                id.setLayoutY(50);
+                timeMin.setLayoutY(80);
+                timeMax.setLayoutY(110);
 
-                    ;
-                    // Agregar el nuevo Pane al Pane con margen
-                    contentProccess.setLeftAnchor(newPane, 50.0);
-                    contentProccess.getChildren().add(newPane);
+                ;
+                // Agregar el nuevo Pane al Pane con margen
+                contentProccess.setLeftAnchor(newPane, 30.0);
+                contentProccess.getChildren().add(newPane);
 
-                    newPane.setOnMouseClicked(event -> {
+                newPane.setOnMouseClicked(event -> {
+                    if (changeColor == 0) {
+                        changeColor = 1;
+                        newPane.setStyle("-fx-background-color:  #1397D4");
+                        name.setTextFill(javafx.scene.paint.Color.WHITE);
+                        id.setTextFill(javafx.scene.paint.Color.WHITE);
+                        timeMax.setTextFill(javafx.scene.paint.Color.WHITE);
+                        timeMin.setTextFill(javafx.scene.paint.Color.WHITE);
 
-                        if (changeColor == 0) {
-                            newPane.setStyle("-fx-background-color: lightblue");
-                            paneSeleccionado = newPane;
-                            procesoSelecionado = proceso;
-                            for (i = 0; i < procesoSelecionado.getListaActividades().getTamano(); i++) {
+                        paneSeleccionado = newPane;
+                        procesoSelecionado = proceso;
+
+                        int cantidadActividades = procesoSelecionado.getListaActividades().getTamano();
+                        if(cantidadActividades != 0){
+                            for (int i = 0; i < cantidadActividades; i++) {
                                 Actividad actividad = procesoSelecionado.getListaActividades().obtenerNodo(i).getValorNodo();
                                 HBox hbox = new HBox();
                                 Label actividadView = new Label(actividad.getNombre());
                                 Button btnEdit, btnRemove;
                                 btnEdit = new Button();
                                 btnRemove = new Button();
-                                RadioButton levelTask = new RadioButton();
-
 
                                 Image img = new Image("/resources/eliminar.png");
                                 ImageView view = new ImageView(img);
@@ -131,8 +154,6 @@ public class PrincipalViewController {
 
                                 btnRemove.setGraphic(view);
                                 btnEdit.setGraphic(view1);
-                                levelTask.setPrefHeight(20);
-                                levelTask.setPrefWidth(20);
 
                                 hbox.setLayoutY(activiesCurrentY);
                                 activiesCurrentY += hbox.getPrefHeight() + 30;
@@ -143,65 +164,315 @@ public class PrincipalViewController {
                                 hbox.setLayoutY(activiesCurrentY);
                                 activiesCurrentY += hbox.getPrefHeight() + 20;
 
-                                hbox.getChildren().addAll(levelTask, actividadView, btnEdit, btnRemove);
+                                hbox.getChildren().addAll(actividadView, btnEdit, btnRemove);
                                 contentActivies.getChildren().add(hbox);
 
+                                btnEdit.setOnMouseClicked( (event23) -> {
+                                    if(actividadSeleccionada != null){
+                                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/infoActividad.fxml"));
+                                        Scene scene;
+                                        try {
+                                            scene = new Scene(fxmlLoader.load(), 520, 470);
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        Stage stage = new Stage();
+                                        stage.setTitle("INFO ACTIVIDAD");
+                                        stage.initModality(Modality.APPLICATION_MODAL);
+                                        stage.setScene(scene);
+                                        stage.showAndWait();
 
-                                changeColor = 1;
+                                    }else{
+                                        mostrarMensaje("DETALLE ACTIVIDAD", "Acción fallida", "seleccione un proceso para editar", Alert.AlertType.WARNING);
+                                    }
+                                });
 
+                                btnRemove.setOnMouseClicked( (event23) ->{
+                                    if(actividadSeleccionada != null){
+                                        Stage dialogo = new Stage();
+                                        dialogo.initModality(Modality.APPLICATION_MODAL);
+                                        dialogo.setTitle("Eliminacion de actividad");
+
+                                        Label mensajeLabel = new Label("¿Seguro quiere eliminar la actividad?");
+
+
+                                        Button aceptarBtn = new Button("Aceptar");
+                                        Button cancelarBtn = new Button("Cancelar");
+
+                                        aceptarBtn.setOnAction(e -> {
+                                            procesoSelecionado.eliminarActividad(actividadSeleccionada);
+                                            mostrarMensaje("ELIMINACION ACTIVIDAD", "Accion existosa", "Se ha eliminado la actividad", Alert.AlertType.INFORMATION);
+                                            dialogo.close();
+
+                                            refrescarVentana();
+
+
+                                        });
+
+                                        cancelarBtn.setOnAction(e -> {
+                                            dialogo.close();
+                                        });
+
+                                        HBox hboxButtons = new HBox(10);
+                                        hboxButtons.getChildren().addAll(aceptarBtn, cancelarBtn);
+                                        hboxButtons.setAlignment(Pos.CENTER);
+
+                                        VBox layout = new VBox(10);
+                                        layout.getChildren().addAll(mensajeLabel, hboxButtons);
+                                        layout.setAlignment(Pos.CENTER);
+
+                                        Scene scene = new Scene(layout, 250, 150);
+                                        dialogo.setScene(scene);
+                                        dialogo.showAndWait();
+                                    }else{
+                                        mostrarMensaje("DETALLE ACTIVIDAD", "Acción fallida", "seleccione un proceso para eliminar", Alert.AlertType.WARNING);
+                                    }
+
+                                });
+
+                                actividadView.setOnMouseClicked((event13) -> {
+                                    if(changeColorActivity == 0){
+                                        changeColorActivity = 1;
+
+                                        String estiloActual = actividadView.getStyle();
+                                        estiloActual += "-fx-text-fill: #1397d4;";
+                                        actividadView.setStyle(estiloActual);
+                                        actividadSeleccionada = actividad;
+                                        llenarTareas(actividadSeleccionada);
+                                    }else{
+                                        changeColorActivity = 0;
+                                        String estiloActual = actividadView.getStyle();
+                                        estiloActual += "-fx-text-fill: black;";
+                                        actividadView.setStyle(estiloActual);
+
+                                        actividadSeleccionada = null;
+                                        contentTaks.getChildren().clear();
+                                        taskCurrentY = 0;
+                                    }
+                                });
                             }
-                        } else {
-                            contentActivies.getChildren().clear();
-                            procesoSelecionado = null;
-                            paneSeleccionado = null;
-                            newPane.setStyle("-fx-background-color: gray");
-                            changeColor = 0;
+                        }else{
+                            mostrarMensaje("MOSTRAR ACTIVIDADES", "NO HAY DATOS", "el proceso seleccionado no tiene actividades", Alert.AlertType.INFORMATION);
                         }
-                        System.out.println(newPane.getId());
-                    });
+                    }else{
+                        contentActivies.getChildren().clear();
+                        contentTaks.getChildren().clear();
+                        procesoSelecionado = null;
+                        paneSeleccionado = null;
+                        newPane.setStyle("-fx-background-color: #dbdad7");
+                        name.setTextFill(javafx.scene.paint.Color.BLACK);
+                        id.setTextFill(javafx.scene.paint.Color.BLACK);
+                        timeMax.setTextFill(javafx.scene.paint.Color.BLACK);
+                        timeMin.setTextFill(javafx.scene.paint.Color.BLACK);
+                        changeColor = 0;
+                        activiesCurrentY = 0;
+                    }
+//                    System.out.println(newPane.getId());
+                });
 
-                }
             }
-            Image img = new Image("/resources/addActivity.png");
-            ImageView view = new ImageView(img);
-            view.setFitHeight(30);
-            view.setFitWidth(30);
-            view.setPreserveRatio(true);
+        }
+        Image img = new Image("/resources/addActivity.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(30);
+        view.setFitWidth(30);
+        view.setPreserveRatio(true);
 
-            Image img1 = new Image("/resources/addActivity.png");
-            ImageView view1 = new ImageView(img1);
-            view1.setFitHeight(30);
-            view1.setFitWidth(30);
-            view1.setPreserveRatio(true);
+        Image img1 = new Image("/resources/addActivity.png");
+        ImageView view1 = new ImageView(img1);
+        view1.setFitHeight(30);
+        view1.setFitWidth(30);
+        view1.setPreserveRatio(true);
 
-            Image img2 = new Image("/resources/buscar.png");
-            ImageView view2 = new ImageView(img2);
-            view2.setFitHeight(20);
-            view2.setFitWidth(20);
-            view2.setPreserveRatio(true);
+        Image img2 = new Image("/resources/buscar.png");
+        ImageView view2 = new ImageView(img2);
+        view2.setFitHeight(20);
+        view2.setFitWidth(20);
+        view2.setPreserveRatio(true);
 
-            btnAddActivity.setGraphic(view);
-            btnAddTask.setGraphic(view1);
-            btnBuscar.setGraphic(view2);
-
+        btnAddActivity.setGraphic(view);
+        btnAddTask.setGraphic(view1);
+        btnBuscar.setGraphic(view2);
     }
-/////////////////////////////////////CRUD PROCESOS//////////////////////////////////////////////////////////////
+
+    private void refrescarVentana() {
+        contentProccess.getChildren().clear();
+        contentActivies.getChildren().clear();
+        contentTaks.getChildren().clear();
+        proccessCurrentY = 0;
+        activiesCurrentY = 0;
+        taskCurrentY = 0;
+        initialize();
+    }
+
+    private void llenarTareas(Actividad actividad) {
+        ArrayList<Tarea> listaTareas = actividad.convertirCola(actividad.getTareas());
+
+        int cantidadTareas = listaTareas.size();
+
+        if (cantidadTareas != 0){
+            for (int j = 0; j < cantidadTareas; j++) {
+                Tarea tareaI = listaTareas.get(j);
+
+                HBox hbox = new HBox();
+                Label tarea = new Label(listaTareas.get(j).getNombre());
+                Button btnEdit, btnRemove;
+                btnEdit = new Button();
+                btnRemove = new Button();
+
+                Image img = new Image("/resources/eliminar.png");
+                ImageView view = new ImageView(img);
+                view.setFitHeight(20);
+                view.setFitWidth(20);
+                view.setPreserveRatio(true);
+
+                Image img1 = new Image("/resources/editar.png");
+                ImageView view1 = new ImageView(img1);
+                view1.setFitHeight(20);
+                view1.setFitWidth(20);
+                view1.setPreserveRatio(true);
+
+                tarea.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20;");
+
+                btnRemove.setGraphic(view);
+                btnEdit.setGraphic(view1);
+
+
+                btnEdit.setOnMouseClicked( (event) -> {
+                    if(tareaSeleccionada != null){
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InfoTarea.fxml"));
+                        Scene scene;
+                        try {
+                            scene = new Scene(fxmlLoader.load(), 520, 470);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Stage stage = new Stage();
+                        stage.setTitle("INFO TAREA");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setScene(scene);
+                        stage.showAndWait();
+
+                    }else{
+                        mostrarMensaje("DETALLE TAREA", "Acción fallida", "seleccione una tarea para editar", Alert.AlertType.WARNING);
+                    }
+                });
+
+                btnRemove.setOnMouseClicked( (event) ->{
+                    if(tareaSeleccionada != null){
+                        Stage dialogo = new Stage();
+                        dialogo.initModality(Modality.APPLICATION_MODAL);
+                        dialogo.setTitle("Eliminacion de tarea");
+
+                        Label mensajeLabel = new Label("¿Seguro quiere eliminar la tarea?");
+
+
+                        Button aceptarBtn = new Button("Aceptar");
+                        Button cancelarBtn = new Button("Cancelar");
+
+                        aceptarBtn.setOnAction(e -> {
+                            procesoSelecionado.eliminarActividad(actividadSeleccionada);
+                            mostrarMensaje("ELIMINACION TAREA", "Accion existosa", "Se ha eliminado la tarea", Alert.AlertType.INFORMATION);
+                            dialogo.close();
+
+                            refrescarVentana();
+                        });
+
+                        cancelarBtn.setOnAction(e -> {
+                            dialogo.close();
+                        });
+
+                        HBox hboxButtons = new HBox(10);
+                        hboxButtons.getChildren().addAll(aceptarBtn, cancelarBtn);
+                        hboxButtons.setAlignment(Pos.CENTER);
+
+                        VBox layout = new VBox(10);
+                        layout.getChildren().addAll(mensajeLabel, hboxButtons);
+                        layout.setAlignment(Pos.CENTER);
+
+                        Scene scene = new Scene(layout, 250, 150);
+                        dialogo.setScene(scene);
+                        dialogo.showAndWait();
+
+
+
+                    }else{
+                        mostrarMensaje("DETALLE ACTIVIDAD", "Acción fallida", "seleccione un tarea para eliminar", Alert.AlertType.WARNING);
+                    }
+
+                });
+
+                tarea.setOnMouseClicked( (event) -> {
+                    if(changeColorTask == 0){
+                        changeColorTask = 1;
+
+                        String estiloActual = tarea.getStyle();
+                        estiloActual += "-fx-text-fill: #1397d4;";
+                        tarea.setStyle(estiloActual);
+                        tareaSeleccionada = tareaI;
+                    }else{
+                        changeColorTask = 0;
+                        String estiloActual = tarea.getStyle();
+                        estiloActual += "-fx-text-fill: black;";
+                        tarea.setStyle(estiloActual);
+                        tareaSeleccionada = null;
+                    }
+                });
+
+                hbox.setLayoutY(taskCurrentY);
+                taskCurrentY += hbox.getPrefHeight() + 30;
+
+                hbox.setMargin(btnEdit, new Insets(0, 0, 0, 50)); // Márgen derecho para el botón 1
+                hbox.setMargin(btnRemove, new Insets(0, 0, 0, 10));
+
+                hbox.setLayoutY(taskCurrentY);
+                taskCurrentY += hbox.getPrefHeight() + 20;
+
+                hbox.getChildren().addAll(tarea, btnEdit, btnRemove);
+                contentTaks.getChildren().add(hbox);
+            }
+        }else{
+            mostrarMensaje("MOSTRAR TAREAS", "NO HAY DATOS", "la actividad seleccionada no tiene tareas", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    /////////////////////////////////////CRUD PROCESOS//////////////////////////////////////////////////////////////
     public void onClickCrearProceso( ) throws IOException {
 
         if (INSTANCE.getModel().getUsuarioLogueado().getRol().equals(Rol.ADMINISTRADOR)) {
-            FXMLLoader fxmlLoader = new FXMLLoader(CrudProcesoController.class.getResource("/view/crearProceso-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/crearProceso-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 600, 470);
             Stage stage = new Stage();
-            stage.setTitle("Crear procesos");
+            stage.setTitle("INFO ACTIVIDAD");
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
-            stage.initOwner(btnCrearProceso.getScene().getWindow());
-            btnCrearProceso.getScene().getWindow().hide();
-            stage.show();
+            stage.showAndWait();
+
+            refrescarVentana();
         } else {
             mostrarMensaje("Informacion rol","ERROR","Solo los administradores pueden crear procesos", Alert.AlertType.ERROR);
-
         }
 
+    }
+
+    public void onClickActualizarProceso() throws IOException {
+        if (INSTANCE.getModel().getUsuarioLogueado().getRol().equals(Rol.ADMINISTRADOR)) {
+            if (paneSeleccionado != null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/infoProceso.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 520, 470);
+                Stage stage = new Stage();
+                stage.setTitle("INFO ACTIVIDAD");
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(scene);
+                stage.showAndWait();
+
+                refrescarVentana();
+            } else {
+                mostrarMensaje("Informacion proceso", "ERROR", "Seleccione el proceso que desea editar", Alert.AlertType.ERROR);
+            }
+        }else {
+            mostrarMensaje("Informacion Rol","ERROR","Solo los administradores pueden crear procesos", Alert.AlertType.ERROR);
+        }
     }
     public  void onEditarProceso() throws IOException {
         if (INSTANCE.getModel().getUsuarioLogueado().getRol().equals(Rol.ADMINISTRADOR)) {
@@ -349,7 +620,7 @@ public class PrincipalViewController {
                     String timeMax = tfTimeMax.getText();
                     String timeMin = tfTimeMin.getText();
                     if (validarDatos(name, id, timeMax, timeMin)) {
-                        Proceso procesoEditado = new Proceso(id, name, Integer.parseInt(timeMin), Integer.parseInt(timeMax));
+                        Proceso procesoEditado = new Proceso(id, name);
                         procesoSelecionado = INSTANCE.getModel().actualizarProceso(procesoEditado, procesoSelecionado.getId());
                         mostrarMensaje("Informacion proceso", "", "El proceso ha sido actualizado.", Alert.AlertType.INFORMATION);
                         stage.close();
@@ -376,6 +647,7 @@ public class PrincipalViewController {
                 paneSeleccionado.getChildren().clear();
                 paneSeleccionado.setStyle("-fx-background-color: write");
                 paneSeleccionado = null;
+                refrescarVentana();
             }
 
         } else {
@@ -389,80 +661,39 @@ public class PrincipalViewController {
 
     //////////////////////////////////////////////CRUD ACTIVIDAD//////////////////////////////////////////////////
     public void onClickAddActivity() throws IOException {
-
         if (procesoSelecionado != null) {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(CrudActividadController.class.getResource("/view/crearActividad-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/crearActividad-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 730, 500);
             Stage stage = new Stage();
-            stage.setTitle("Crear procesos");
+            stage.setTitle("CREAR ACTIVIDAD");
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
-            stage.initOwner(btnAddActivity.getScene().getWindow());
-            btnAddActivity.getScene().getWindow().hide();
-            stage.show();
+            stage.showAndWait();
+            refrescarVentana();
+
         } else {
-            mostrarMensaje("Informacion proceso", "ERROR", "Seleccione el proceso que le desea añadir una actividad", Alert.AlertType.ERROR);
+            mostrarMensaje("Informacion proceso", "ERROR", "Seleccione el proceso que le desea añadir una actividad", Alert.AlertType.WARNING);
         }
     }
 
 
 /////////////////////////////////////////////CRUD TAREA////////////////////////////////////////////////
 
-
-
     public void onClickAddTask() throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(CrudTareaController.class.getResource("/view/crearTarea-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-        Stage stage = new Stage();
-        stage.setTitle("Crear procesos");
-        stage.setScene(scene);
-        stage.show();
-        HBox hbox = new HBox();
-        Label tarea = new Label("Tarea");
-        Button btnEdit, btnRemove;
-        btnEdit = new Button();
-        btnRemove = new Button();
-        RadioButton levelTask = new RadioButton();
-
-
-        Image img = new Image("/resources/eliminar.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setFitWidth(20);
-        view.setPreserveRatio(true);
-
-        Image img1 = new Image("/resources/editar.png");
-        ImageView view1 = new ImageView(img1);
-        view1.setFitHeight(20);
-        view1.setFitWidth(20);
-        view1.setPreserveRatio(true);
-
-        tarea.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20;");
-
-        //levelTask.setStyle("-fx-background-color: gray");
-        levelTask.setPrefHeight(20);
-        levelTask.setPrefWidth(20);
-
-        btnRemove.setGraphic(view);
-        btnEdit.setGraphic(view1);
-
-        hbox.setLayoutY(taskCurrentY);
-        taskCurrentY += hbox.getPrefHeight() + 20;
-
-        hbox.setMargin(btnEdit, new Insets(0, 0, 0, 50)); // Márgen derecho para el botón 1
-        hbox.setMargin(btnRemove, new Insets(0, 0, 0, 10));
-        hbox.setLayoutY(taskCurrentY);
-        taskCurrentY += hbox.getPrefHeight() + 20;
-
-        hbox.getChildren().addAll(levelTask, tarea, btnEdit, btnRemove);
-        contentTaks.getChildren().add(hbox);
-
-        levelTask.setOnMouseClicked( (event) -> {
-            tarea.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20; -fx-text-fill: #1397D4");
-            levelTask.setDisable(true);
-        });
+        if (actividadSeleccionada != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/crearTarea-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 650, 500);
+            Stage stage = new Stage();
+            stage.setTitle("CREAR TAREA");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.showAndWait();
+            refrescarVentana();
+        } else {
+            mostrarMensaje("Informacion proceso", "ERROR", "Seleccione la actividad que le desea añadir una tarea", Alert.AlertType.WARNING);
+        }
     }
+
 
 
     public void onLogoutAction(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -553,6 +784,14 @@ public class PrincipalViewController {
 
     public static Proceso getProcesoSelecionado() {
         return procesoSelecionado;
+    }
+
+    public static Actividad getActividadSeleccionada() {
+        return actividadSeleccionada;
+    }
+
+    public static Tarea getTareaSeleccionada() {
+        return tareaSeleccionada;
     }
 
     public void onClickBuscar(ActionEvent actionEvent) {

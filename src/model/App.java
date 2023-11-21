@@ -26,8 +26,10 @@ public class App {
 
     private void inicializarDatos() {
         listaUsuarios.agregarInicio(new Usuario("jhojan","123",Rol.ADMINISTRADOR));
-        Proceso proceso = new Proceso("12","Desayunos",20,30);
-        proceso.crearActividad("Prepara Cafe","hacer el cafe",true);
+        Proceso proceso = new Proceso("12","Desayunos");
+        Actividad actividad = new Actividad("Prepara Cafe","hacer el cafe",true);
+        actividad.crearTarea(new Tarea("TAREA 1", "una tarea fácil", false));
+        proceso.crearActividad(actividad.getNombre(), actividad.getDescripcion(), actividad.isObligatoriedad());
         listaProcesos.agregarInicio(proceso);
     }
 
@@ -70,7 +72,7 @@ public class App {
 
 
 
-    public Proceso crearProceso(String id, String nombre, int tiempoMinimo, int tiempoMaximo) {
+    public Proceso crearProceso(String id, String nombre) {
         Proceso procesoEncontrado = null;
         for (int i = 0; i < listaProcesos.getTamano(); i++) {
             Proceso proceso = listaProcesos.obtenerNodo(i).getValorNodo();
@@ -83,9 +85,9 @@ public class App {
             return null;
         }
 
-        Proceso nuevoProceso = new Proceso(id, nombre, tiempoMinimo, tiempoMaximo);
+        Proceso nuevoProceso = new Proceso(id, nombre);
         listaProcesos.agregarInicio(nuevoProceso);
-        System.out.println("Proceso creado con éxito");
+        //System.out.println("Proceso creado con éxito");
         return nuevoProceso;
     }
 
@@ -109,18 +111,10 @@ public class App {
         for (int i = 0; i < listaProcesos.getTamano(); i++) {
             Proceso proceso1 = listaProcesos.obtenerNodo(i).getValorNodo();
             if(proceso1.getId().equals(id)){
-                //  listaProcesos.obtenerNodo(i).setValorNodo(proceso);
                 proceso1.setNombre(proceso.getNombre());
-                proceso1.setTiempoMinimo(proceso.getTiempoMinimo());
-                proceso1.setTiempoMaximo(proceso.getTiempoMaximo());
-                proceso1.setListaActividades(proceso.getListaActividades());
-
-                System.out.println("Proceso actualizado con éxito");
                 return proceso1;
-
             }
         }
-
         return null;
     }
 

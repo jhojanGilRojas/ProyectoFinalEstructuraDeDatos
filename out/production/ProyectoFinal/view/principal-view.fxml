@@ -40,7 +40,7 @@
                   <Font name="SimSun" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="btnEditarProceso" layoutX="192.0" layoutY="577.0" mnemonicParsing="false" onAction="#onEditarProceso" style="-fx-background-color: #1397D4;" text="EDITAR" textFill="WHITE">
+            <Button fx:id="btnEditarProceso" layoutX="192.0" layoutY="577.0" mnemonicParsing="false" onAction="#onClickActualizarProceso" style="-fx-background-color: #1397D4;" text="EDITAR" textFill="WHITE">
                <font>
                   <Font name="SimSun" size="18.0" />
                </font>

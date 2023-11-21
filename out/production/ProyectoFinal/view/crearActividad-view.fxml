@@ -10,36 +10,36 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="986.0" style="-fx-background-color: #1397D4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CrudActividadController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="751.0" style="-fx-background-color: #1397D4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CrudActividadController">
    <children>
-      <Label layoutX="268.0" layoutY="14.0" text="Proccess Management Systems-UQ" textFill="WHITE">
+      <Label layoutX="149.0" layoutY="14.0" text="Proccess Management Systems-UQ" textFill="WHITE">
          <font>
             <Font name="SimSun" size="30.0" />
          </font>
       </Label>
-      <Pane focusTraversable="true" layoutX="102.0" layoutY="78.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="782.0" style="-fx-background-color: #ffffff;">
+      <Pane focusTraversable="true" layoutX="43.0" layoutY="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="659.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Label alignment="CENTER" layoutX="186.0" layoutY="23.0" prefHeight="35.0" prefWidth="410.0" text="Creación de actividad" textFill="#1397d4">
+            <Label alignment="CENTER" layoutX="111.0" layoutY="14.0" prefHeight="35.0" prefWidth="410.0" text="Creación de actividad" textFill="#1397d4">
                <font>
-                  <Font name="SimSun" size="30.0" />
+                  <Font name="SimSun" size="25.0" />
                </font>
             </Label>
             <Label layoutX="119.0" layoutY="158.0" text="Descripción">
                <font>
-                  <Font name="SimSun" size="22.0" />
+                  <Font name="SimSun" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnCancelar" ellipsisString="" layoutX="466.0" layoutY="422.0" mnemonicParsing="false" onAction="#onCancelarClick" prefHeight="41.0" prefWidth="184.0" style="-fx-background-color: #1397D4;" text="CANCELAR" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btnCancelar" ellipsisString="" layoutX="432.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelarClick" prefHeight="41.0" prefWidth="184.0" style="-fx-background-color: #1397D4;" text="CANCELAR" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
-                  <Font name="SimSun" size="25.0" />
+                  <Font name="SimSun" size="18.0" />
                </font>
             </Button>
             <Label layoutX="119.0" layoutY="90.0" prefHeight="20.0" prefWidth="70.0" text="Nombre">
                <font>
-                  <Font name="SimSun" size="22.0" />
+                  <Font name="SimSun" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="tfName" alignment="CENTER" layoutX="316.0" layoutY="81.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;">
+            <TextField fx:id="tfName" alignment="CENTER" layoutX="316.0" layoutY="81.0" prefHeight="0.0" prefWidth="300.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -47,7 +47,7 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <TextField fx:id="tfDescription" alignment="CENTER" layoutX="316.0" layoutY="150.0" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #1397D4;">
+            <TextField fx:id="tfDescription" alignment="CENTER" layoutX="316.0" layoutY="150.0" prefHeight="89.0" prefWidth="300.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -55,7 +55,7 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <MenuButton fx:id="mbtnInsercion" layoutX="119.0" layoutY="422.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;" text="AGREGRAR" textAlignment="CENTER" textFill="WHITE">
+            <MenuButton fx:id="mbtnInsercion" layoutX="91.0" layoutY="348.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;" text="AGREGRAR" textAlignment="CENTER" textFill="WHITE">
               <items>
                 <MenuItem fx:id="mItemAgregarInicio" mnemonicParsing="false" onAction="#onAgregrarInicio" text="Agregrar al inicio" />
                 <MenuItem fx:id="mItemAgregarFinal" mnemonicParsing="false" onAction="#onAgregarFinal" text="Argregrar al final" />
@@ -63,7 +63,7 @@
                   <MenuItem fx:id="mItemAgregarPostUltima" mnemonicParsing="false" onAction="#onAgregarPostUltima" text="agregar despues de la ultima agregrada" />
               </items>
                <font>
-                  <Font name="SimSun" size="25.0" />
+                  <Font name="SimSun" size="18.0" />
                </font>
             </MenuButton>
             <Label fx:id="LabelInsercion" layoutX="33.0" layoutY="288.0">
@@ -71,10 +71,10 @@
                   <Font name="SimSun" size="22.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cbObligatoriedad" layoutX="316.0" layoutY="339.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: #1397D4;" />
-            <Label layoutX="91.0" layoutY="347.0" prefHeight="23.0" prefWidth="177.0" text="¿Es obligatoria?">
+            <ComboBox fx:id="cbObligatoriedad" layoutX="316.0" layoutY="262.0" prefHeight="39.0" prefWidth="300.0" />
+            <Label layoutX="119.0" layoutY="270.0" prefHeight="23.0" prefWidth="177.0" text="¿Es obligatoria?">
                <font>
-                  <Font name="SimSun" size="22.0" />
+                  <Font name="SimSun" size="18.0" />
                </font>
             </Label>
          </children>

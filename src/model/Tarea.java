@@ -10,6 +10,7 @@ public class Tarea {
     private String nombre;
     private String descripcion;
     private boolean obligatoriedad;
+    private int tiempo;
 
     Cola<Tarea> cola = new Cola<>();
 
@@ -80,6 +81,13 @@ public class Tarea {
         this.obligatoriedad = obligatoriedad;
     }
 
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
+    }
 
     @Override
     public String toString() {
@@ -103,4 +111,6 @@ public class Tarea {
     public int hashCode() {
         return Objects.hash(nombre, descripcion, obligatoriedad, cola);
     }
+
+
 }
