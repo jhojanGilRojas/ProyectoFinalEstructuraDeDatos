@@ -9,10 +9,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="419.0" prefWidth="566.0" style="-fx-background-color: #1397d4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InfoTareaController">
+<AnchorPane prefHeight="474.0" prefWidth="516.0" style="-fx-background-color: #1397d4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InfoTareaController">
    <children>
-      <Pane layoutX="64.0" layoutY="14.0" prefHeight="378.0" prefWidth="444.0" style="-fx-background-color: ffffff;">
+      <Pane layoutX="50.0" layoutY="14.0" prefHeight="432.0" prefWidth="416.0" style="-fx-background-color: ffffff;">
          <children>
             <Label layoutX="14.0" layoutY="7.0" prefHeight="48.0" prefWidth="270.0" text="Detalle tarea" textFill="#1397d4">
                <font>
@@ -29,24 +28,30 @@
                   <Font name="SimSun" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="42.0" layoutY="256.0" prefHeight="28.0" prefWidth="141.0" text="Obligatoriedad">
+            <Label layoutX="42.0" layoutY="307.0" prefHeight="28.0" prefWidth="141.0" text="Obligatoriedad">
                <font>
                   <Font name="SimSun" size="18.0" />
                </font>
             </Label>
             <TextField fx:id="tfNombre" layoutX="205.0" layoutY="68.0" prefHeight="25.0" prefWidth="183.0" />
-            <TextArea fx:id="tfDescripcion" layoutX="209.0" layoutY="108.0" prefHeight="128.0" prefWidth="176.0" />
-            <ComboBox fx:id="cbObligatoriedad" layoutX="206.0" layoutY="258.0" prefHeight="25.0" prefWidth="183.0" />
-            <Button fx:id="btnActualizar" layoutX="82.0" layoutY="321.0" mnemonicParsing="false" onAction="#onClickActualizar" style="-fx-background-color: #1397d4;" text="ACTUALIZAR" textFill="WHITE">
+            <TextArea fx:id="tfDescripcion" layoutX="206.0" layoutY="108.0" prefHeight="128.0" prefWidth="183.0" />
+            <ComboBox fx:id="cbObligatoriedad" layoutX="206.0" layoutY="309.0" prefHeight="25.0" prefWidth="183.0" />
+            <Button fx:id="btnActualizar" layoutX="82.0" layoutY="370.0" mnemonicParsing="false" onAction="#onClickActualizar" style="-fx-background-color: #1397d4;" text="ACTUALIZAR" textFill="WHITE">
                <font>
                   <Font name="SimSun" size="17.0" />
                </font>
             </Button>
-            <Button fx:id="btnCancelar" layoutX="249.0" layoutY="320.0" mnemonicParsing="false" onAction="#onClickCancelar" style="-fx-background-color: #1397d4;" text="CANCELAR" textFill="WHITE">
+            <Button fx:id="btnCancelar" layoutX="249.0" layoutY="365.0" mnemonicParsing="false" onAction="#onClickCancelar" style="-fx-background-color: #1397d4;" text="CANCELAR" textFill="WHITE">
                <font>
                   <Font name="SimSun" size="18.0" />
                </font>
             </Button>
+            <Label layoutX="42.0" layoutY="260.0" prefHeight="28.0" prefWidth="117.0" text="Tiempo">
+               <font>
+                  <Font name="SimSun" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfTiempo" layoutX="205.0" layoutY="261.0" prefHeight="25.0" prefWidth="183.0" />
          </children>
       </Pane>
    </children>

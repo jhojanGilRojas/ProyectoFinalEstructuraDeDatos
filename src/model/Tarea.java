@@ -14,10 +14,11 @@ public class Tarea {
 
     Cola<Tarea> cola = new Cola<>();
 
-    public Tarea(String nombre, String descripcion, boolean obligatoriedad) {
+    public Tarea(String nombre, String descripcion, boolean obligatoriedad, int tiempo) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.obligatoriedad = obligatoriedad;
+        this.tiempo = tiempo;
     }
 
     public Tarea insertarEnPosicionDeterminada(Tarea tarea, int posicion) {

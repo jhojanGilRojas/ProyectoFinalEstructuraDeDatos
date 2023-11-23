@@ -28,24 +28,30 @@
                   <Font name="SimSun" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="32.0" layoutY="289.0" prefHeight="28.0" prefWidth="141.0" text="Obligatoriedad">
+            <Label layoutX="32.0" layoutY="329.0" prefHeight="28.0" prefWidth="141.0" text="Obligatoriedad">
                <font>
                   <Font name="SimSun" size="18.0" />
                </font>
             </Label>
             <TextField fx:id="tfNombre" layoutX="198.0" layoutY="91.0" prefHeight="25.0" prefWidth="183.0" />
-            <Button fx:id="btnActualizar" layoutX="96.0" layoutY="368.0" mnemonicParsing="false" onAction="#onClickActualizar" style="-fx-background-color: #1397d4;" text="ACTUALIZAR" textFill="WHITE">
+            <Button fx:id="btnActualizar" layoutX="96.0" layoutY="384.0" mnemonicParsing="false" onAction="#onClickActualizar" style="-fx-background-color: #1397d4;" text="ACTUALIZAR" textFill="WHITE">
                <font>
                   <Font name="SimSun" size="17.0" />
                </font>
             </Button>
-            <Button fx:id="btnCancelar" layoutX="243.0" layoutY="367.0" mnemonicParsing="false" onAction="#onClickCancelar" style="-fx-background-color: #1397d4;" text="CANCELAR" textFill="WHITE">
+            <Button fx:id="btnCancelar" layoutX="244.0" layoutY="383.0" mnemonicParsing="false" onAction="#onClickCancelar" style="-fx-background-color: #1397d4;" text="CANCELAR" textFill="WHITE">
                <font>
                   <Font name="SimSun" size="18.0" />
                </font>
             </Button>
-            <ComboBox fx:id="cbObligatoriedad" layoutX="199.0" layoutY="291.0" prefHeight="25.0" prefWidth="183.0" />
+            <ComboBox fx:id="cbObligatoriedad" layoutX="201.0" layoutY="331.0" prefHeight="25.0" prefWidth="183.0" />
             <TextArea fx:id="tfDescripcion" layoutX="202.0" layoutY="137.0" prefHeight="128.0" prefWidth="176.0" />
+            <Label layoutX="32.0" layoutY="284.0" prefHeight="28.0" prefWidth="117.0" text="Tiempo (min)" textFill="#7c7676">
+               <font>
+                  <Font name="SimSun" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfTiempo" layoutX="198.0" layoutY="285.0" prefHeight="25.0" prefWidth="183.0" />
          </children>
       </Pane>
    </children>

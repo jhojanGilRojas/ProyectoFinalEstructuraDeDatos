@@ -72,6 +72,7 @@ public class CrudActividadController {
                 limpiarCampos();
             }
         }
+        procesoSelecionado.calcularTiempoMax();
     }
 
     @FXML
@@ -188,6 +189,7 @@ public class CrudActividadController {
             });
 
         }
+        procesoSelecionado.calcularTiempoMax();
     }
 
     @FXML
@@ -210,6 +212,7 @@ public class CrudActividadController {
                 limpiarCampos();
             }
         }
+        procesoSelecionado.calcularTiempoMax();
     }
 
     @FXML
@@ -231,6 +234,7 @@ public class CrudActividadController {
             limpiarCampos();
         }
     }
+    procesoSelecionado.calcularTiempoMax();
     }
 
     private boolean recuperarBoolean(Obligatoriedad cbObligatoriedad) {

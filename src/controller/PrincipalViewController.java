@@ -52,6 +52,12 @@ public class PrincipalViewController {
     private Button btnEditarProceso;
     @FXML
     private Button btnBuscar;
+    @FXML
+    private Button btnRunProccess;
+    @FXML
+    private Button btnExportar;
+    @FXML
+    private Button btnImportar;
 
     @FXML
     private Button btnCrudUsuarios;
@@ -134,9 +140,10 @@ public class PrincipalViewController {
                                 Actividad actividad = procesoSelecionado.getListaActividades().obtenerNodo(i).getValorNodo();
                                 HBox hbox = new HBox();
                                 Label actividadView = new Label(actividad.getNombre());
-                                Button btnEdit, btnRemove;
+                                Button btnEdit, btnRemove, btnInfo;
                                 btnEdit = new Button();
                                 btnRemove = new Button();
+                                btnInfo = new Button();
 
                                 Image img = new Image("/resources/eliminar.png");
                                 ImageView view = new ImageView(img);
@@ -150,21 +157,29 @@ public class PrincipalViewController {
                                 view1.setFitWidth(20);
                                 view1.setPreserveRatio(true);
 
-                                actividadView.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20;");
+                                Image img2 = new Image("/resources/info.png");
+                                ImageView view2 = new ImageView(img2);
+                                view2.setFitHeight(20);
+                                view2.setFitWidth(20);
+                                view2.setPreserveRatio(true);
 
                                 btnRemove.setGraphic(view);
                                 btnEdit.setGraphic(view1);
+                                btnInfo.setGraphic(view2);
+
+                                actividadView.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20;");
 
                                 hbox.setLayoutY(activiesCurrentY);
                                 activiesCurrentY += hbox.getPrefHeight() + 30;
 
-                                hbox.setMargin(btnEdit, new Insets(0, 0, 0, 50)); // Márgen derecho para el botón 1
+                                hbox.setMargin(btnInfo, new Insets(0, 0, 0, 30)); // Márgen derecho para el botón 1
+                                hbox.setMargin(btnEdit, new Insets(0, 0, 0, 10));
                                 hbox.setMargin(btnRemove, new Insets(0, 0, 0, 10));
 
                                 hbox.setLayoutY(activiesCurrentY);
                                 activiesCurrentY += hbox.getPrefHeight() + 20;
 
-                                hbox.getChildren().addAll(actividadView, btnEdit, btnRemove);
+                                hbox.getChildren().addAll(actividadView, btnInfo,btnEdit, btnRemove);
                                 contentActivies.getChildren().add(hbox);
 
                                 btnEdit.setOnMouseClicked( (event23) -> {
@@ -230,6 +245,14 @@ public class PrincipalViewController {
 
                                 });
 
+                                btnInfo.setOnMouseClicked( (event23)-> {
+                                    if(actividadSeleccionada != null){
+                                        mostrarMensaje("INFO ACTIVIDAD", actividadSeleccionada.getNombre(), actividadSeleccionada.getDescripcion()+"\n"+"Es obligatoria: "+actividadSeleccionada.isObligatoriedad()+"\n"+"Tiempo max: "+actividadSeleccionada.getTiempoMax()+" mins", Alert.AlertType.INFORMATION );
+                                    }else{
+                                        mostrarMensaje("DETALLE ACTIVIDAD", "Acción fallida", "seleccione un proceso para ver la información", Alert.AlertType.WARNING);
+                                    }
+                                });
+
                                 actividadView.setOnMouseClicked((event13) -> {
                                     if(changeColorActivity == 0){
                                         changeColorActivity = 1;
@@ -290,9 +313,30 @@ public class PrincipalViewController {
         view2.setFitWidth(20);
         view2.setPreserveRatio(true);
 
+        Image img3 = new Image("/resources/on.png");
+        ImageView view3 = new ImageView(img3);
+        view3.setFitHeight(20);
+        view3.setFitWidth(20);
+        view3.setPreserveRatio(true);
+
+        Image img4 = new Image("/resources/exportar.png");
+        ImageView view4 = new ImageView(img4);
+        view4.setFitHeight(20);
+        view4.setFitWidth(20);
+        view4.setPreserveRatio(true);
+
+        Image img5 = new Image("/resources/importar.png");
+        ImageView view5 = new ImageView(img5);
+        view5.setFitHeight(20);
+        view5.setFitWidth(20);
+        view5.setPreserveRatio(true);
+
         btnAddActivity.setGraphic(view);
         btnAddTask.setGraphic(view1);
         btnBuscar.setGraphic(view2);
+        btnRunProccess.setGraphic(view3);
+        btnExportar.setGraphic(view4);
+        btnImportar.setGraphic(view5);
     }
 
     private void refrescarVentana() {
@@ -371,7 +415,7 @@ public class PrincipalViewController {
                         Button cancelarBtn = new Button("Cancelar");
 
                         aceptarBtn.setOnAction(e -> {
-                            procesoSelecionado.eliminarActividad(actividadSeleccionada);
+                            //procesoSelecionado.eliminarActividad(actividadSeleccionada);
                             mostrarMensaje("ELIMINACION TAREA", "Accion existosa", "Se ha eliminado la tarea", Alert.AlertType.INFORMATION);
                             dialogo.close();
 
@@ -399,6 +443,8 @@ public class PrincipalViewController {
                     }else{
                         mostrarMensaje("DETALLE ACTIVIDAD", "Acción fallida", "seleccione un tarea para eliminar", Alert.AlertType.WARNING);
                     }
+
+                    actividadSeleccionada.calcularTiempoMax();
 
                 });
 
@@ -795,5 +841,14 @@ public class PrincipalViewController {
     }
 
     public void onClickBuscar(ActionEvent actionEvent) {
+    }
+
+    public void onClickRunProccess(ActionEvent actionEvent) {
+    }
+
+    public void onClickExportar(ActionEvent actionEvent) {
+    }
+
+    public void onClickImportar(ActionEvent actionEvent) {
     }
 }

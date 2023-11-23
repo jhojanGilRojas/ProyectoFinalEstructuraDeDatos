@@ -17,6 +17,8 @@ public class InfoActividadController {
     @FXML
     private ComboBox<Obligatoriedad> cbObligatoriedad;
     @FXML
+    private TextField tfTiempo;
+    @FXML
     private Button btnActualizar;
     @FXML
     private Button btnCancelar;
@@ -31,6 +33,10 @@ public class InfoActividadController {
         actividadSeleccionada = PrincipalViewController.getActividadSeleccionada();
         tfNombre.setText(actividadSeleccionada.getNombre());
         tfDescripcion.setText(actividadSeleccionada.getDescripcion());
+        tfTiempo.setText(String.valueOf(actividadSeleccionada.getTiempoMax()));
+
+        tfTiempo.setEditable(false);
+
         if(actividadSeleccionada.isObligatoriedad()){
             cbObligatoriedad.setValue(Obligatoriedad.SI);
         }else{

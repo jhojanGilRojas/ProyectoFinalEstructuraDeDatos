@@ -12,6 +12,10 @@ public class Actividad {
     private String descripcion;
     private boolean obligatoriedad;
 
+    private int tiempoMin;
+    private int tiempoMax;
+
+
     Cola<Tarea> tareas;
 
     public Actividad(String nombre, String descripcion, boolean obligatoriedad) {
@@ -19,6 +23,8 @@ public class Actividad {
         this.descripcion = descripcion;
         this.obligatoriedad = obligatoriedad;
         this.tareas = new Cola<>();
+        this.tiempoMin = 0;
+        this.tiempoMax = 0;
     }
 
     public Actividad() {
@@ -114,6 +120,24 @@ public class Actividad {
         return null;
     }
 
+    public void calcularTiempoMax(){
+        Cola colaAux = new Cola();
+        int tiempo = 0;
+        while (!tareas.estaVacia()){
+            Tarea tareaI = tareas.desencolar();
+            tiempo += tareaI.getTiempo();
+            colaAux.encolar(tareaI);
+        }
+        tareas = colaAux;
+        this.tiempoMax = tiempo;
+    }
 
+    public int getTiempoMax() {
+        return tiempoMax;
+    }
+
+    public void setTiempoMax(int tiempoMax) {
+        this.tiempoMax = tiempoMax;
+    }
 }
 

@@ -11,14 +11,13 @@ public class Proceso {
     private String nombre;
     private int indice = 0;
 
-    ListaDoble<Actividad> listaActividades = new ListaDoble<>();
+    private ListaDoble<Actividad> listaActividades = new ListaDoble<>();
     private int tiempoMinimo;
     private int tiempoMaximo;
 
     public Proceso(String id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.listaActividades = listaActividades;
         tiempoMinimo = 0;
         tiempoMaximo = 0;
     }
@@ -316,5 +315,18 @@ public class Proceso {
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, listaActividades, tiempoMinimo, tiempoMaximo);
+    }
+
+
+    public void calcularTiempoMax(){
+        int cantidadActividades = listaActividades.getTamano();
+        int tiempo = 0;
+
+        for (int i = 0; i < cantidadActividades; i++) {
+
+            Actividad actividad = listaActividades.obtenerNodo(i).getValorNodo();
+            tiempo += actividad.getTiempoMax();
+        }
+        this.tiempoMaximo = tiempo;
     }
 }

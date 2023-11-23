@@ -17,6 +17,8 @@ public class InfoTareaController {
     @FXML
     private ComboBox<Obligatoriedad> cbObligatoriedad;
     @FXML
+    private TextField tfTiempo;
+    @FXML
     private Button btnActualizar;
     @FXML
     private Button btnCancelar;
@@ -29,8 +31,10 @@ public class InfoTareaController {
         tareaSeleccionada = PrincipalViewController.getTareaSeleccionada();
         actividadSeleccionada = PrincipalViewController.getActividadSeleccionada();
 
+
         tfNombre.setText(tareaSeleccionada.getNombre());
         tfDescripcion.setText(tareaSeleccionada.getDescripcion());
+        tfTiempo.setText(String.valueOf(actividadSeleccionada.getTiempoMax()));
         if(tareaSeleccionada.isObligatoriedad()){
             cbObligatoriedad.setValue(Obligatoriedad.SI);
         }else{
@@ -42,13 +46,15 @@ public class InfoTareaController {
         String nombre = tfNombre.getText();
         String descripcion  = tfDescripcion.getText();
         Obligatoriedad obligatoriedad = cbObligatoriedad.getValue();
+        int tiempo = Integer.parseInt(tfTiempo.getText());
         Tarea nuevaTarea;
         if( obligatoriedad.equals(Obligatoriedad.SI)){
-            nuevaTarea = new Tarea(nombre, descripcion, true);
+            nuevaTarea = new Tarea(nombre, descripcion, true, tiempo);
         }else{
-            nuevaTarea = new Tarea(nombre, descripcion, false);
+            nuevaTarea = new Tarea(nombre, descripcion, false, tiempo);
         }
         Tarea tareaActualizada = actividadSeleccionada.actualizarTarea(nuevaTarea, nombre );
+        actividadSeleccionada.calcularTiempoMax();
 
         if(tareaActualizada != null){
             mostrarMensaje("ACTUALIZACION TAREA", "Accion existosa", "Se ha actulizado la tarea correctamente", Alert.AlertType.INFORMATION);

@@ -28,7 +28,7 @@ public class App {
         listaUsuarios.agregarInicio(new Usuario("jhojan","123",Rol.ADMINISTRADOR));
         Proceso proceso = new Proceso("12","Desayunos");
         Actividad actividad = new Actividad("Prepara Cafe","hacer el cafe",true);
-        actividad.crearTarea(new Tarea("TAREA 1", "una tarea fácil", false));
+        //actividad.crearTarea(new Tarea("TAREA 1", "una tarea fácil", false));
         proceso.crearActividad(actividad.getNombre(), actividad.getDescripcion(), actividad.isObligatoriedad());
         listaProcesos.agregarInicio(proceso);
     }

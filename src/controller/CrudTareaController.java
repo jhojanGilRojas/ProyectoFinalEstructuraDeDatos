@@ -48,7 +48,9 @@ public class CrudTareaController {
         if( nombre.equals("") || descripcion.equals("") || obligatoriedad == null){
             mostrarMensaje("Creación de tarea", "datos invalidos", "Llene todos los campos", Alert.AlertType.WARNING);
         }else{
-            PrincipalViewController.getActividadSeleccionada().crearTarea(new Tarea(nombre, descripcion, obligatoriedadBoolean));
+            PrincipalViewController.getActividadSeleccionada().crearTarea(new Tarea(nombre, descripcion, obligatoriedadBoolean, tiempo));
+            PrincipalViewController.getActividadSeleccionada().calcularTiempoMax();
+            PrincipalViewController.getProcesoSelecionado().calcularTiempoMax();
             mostrarMensaje("Creación de tarea", "datos validos", "Se ha creado correctamente la tarea", Alert.AlertType.INFORMATION);
             Stage stage = new Stage();
             stage.initOwner(btnCrearTarea.getScene().getWindow());
