@@ -12,6 +12,8 @@ public class Tarea {
     private boolean obligatoriedad;
     private int tiempo;
 
+    private boolean completada;
+
     Cola<Tarea> cola = new Cola<>();
 
     public Tarea(String nombre, String descripcion, boolean obligatoriedad, int tiempo) {
@@ -19,6 +21,7 @@ public class Tarea {
         this.descripcion = descripcion;
         this.obligatoriedad = obligatoriedad;
         this.tiempo = tiempo;
+        completada = false;
     }
 
     public Tarea insertarEnPosicionDeterminada(Tarea tarea, int posicion) {
@@ -113,5 +116,11 @@ public class Tarea {
         return Objects.hash(nombre, descripcion, obligatoriedad, cola);
     }
 
+    public boolean isCompletada() {
+        return completada;
+    }
 
+    public void setCompletada(boolean completada) {
+        this.completada = completada;
+    }
 }

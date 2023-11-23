@@ -65,6 +65,8 @@ public class PrincipalViewController {
     private Pane contentMain;
     @FXML
     Pane paneSeleccionado;
+    @FXML
+    private TextField tfBuscar;
     static Proceso procesoSelecionado;
 
     static Actividad actividadSeleccionada;
@@ -358,11 +360,19 @@ public class PrincipalViewController {
             for (int j = 0; j < cantidadTareas; j++) {
                 Tarea tareaI = listaTareas.get(j);
 
+
                 HBox hbox = new HBox();
                 Label tarea = new Label(listaTareas.get(j).getNombre());
-                Button btnEdit, btnRemove;
+                Button btnEdit, btnRemove, btnInfo;
                 btnEdit = new Button();
                 btnRemove = new Button();
+                btnInfo = new Button();
+
+                if(tareaI.isCompletada()){
+                    String estilo = tarea.getStyle();
+                    estilo += "-fx-text-fill: green;";
+                    tarea.setStyle(estilo);
+                }
 
                 Image img = new Image("/resources/eliminar.png");
                 ImageView view = new ImageView(img);
@@ -376,10 +386,17 @@ public class PrincipalViewController {
                 view1.setFitWidth(20);
                 view1.setPreserveRatio(true);
 
+                Image img2 = new Image("/resources/info.png");
+                ImageView view2 = new ImageView(img2);
+                view2.setFitHeight(20);
+                view2.setFitWidth(20);
+                view2.setPreserveRatio(true);
+
                 tarea.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20;");
 
                 btnRemove.setGraphic(view);
                 btnEdit.setGraphic(view1);
+                btnInfo.setGraphic(view2);
 
 
                 btnEdit.setOnMouseClicked( (event) -> {
@@ -448,6 +465,14 @@ public class PrincipalViewController {
 
                 });
 
+                btnInfo.setOnMouseClicked( (event) -> {
+                    if(tareaSeleccionada != null){
+                        mostrarMensaje("INFO ACTIVIDAD", tareaSeleccionada.getNombre(), tareaSeleccionada.getDescripcion()+"\n"+"Es obligatoria: "+tareaSeleccionada.isObligatoriedad()+"\n"+"Tiempo max: "+tareaSeleccionada.getTiempo()+" mins", Alert.AlertType.INFORMATION );
+                    }else{
+                        mostrarMensaje("DETALLE ACTIVIDAD", "Acción fallida", "seleccione un proceso para ver la información", Alert.AlertType.WARNING);
+                    }
+                });
+
                 tarea.setOnMouseClicked( (event) -> {
                     if(changeColorTask == 0){
                         changeColorTask = 1;
@@ -468,13 +493,14 @@ public class PrincipalViewController {
                 hbox.setLayoutY(taskCurrentY);
                 taskCurrentY += hbox.getPrefHeight() + 30;
 
-                hbox.setMargin(btnEdit, new Insets(0, 0, 0, 50)); // Márgen derecho para el botón 1
+                hbox.setMargin(btnInfo, new Insets(0, 0, 0, 30)); // Márgen derecho para el botón 1
+                hbox.setMargin(btnEdit, new Insets(0, 0, 0, 10));
                 hbox.setMargin(btnRemove, new Insets(0, 0, 0, 10));
 
                 hbox.setLayoutY(taskCurrentY);
                 taskCurrentY += hbox.getPrefHeight() + 20;
 
-                hbox.getChildren().addAll(tarea, btnEdit, btnRemove);
+                hbox.getChildren().addAll(tarea, btnInfo,btnEdit, btnRemove);
                 contentTaks.getChildren().add(hbox);
             }
         }else{
@@ -520,170 +546,7 @@ public class PrincipalViewController {
             mostrarMensaje("Informacion Rol","ERROR","Solo los administradores pueden crear procesos", Alert.AlertType.ERROR);
         }
     }
-    public  void onEditarProceso() throws IOException {
-        if (INSTANCE.getModel().getUsuarioLogueado().getRol().equals(Rol.ADMINISTRADOR)) {
-            if (paneSeleccionado != null) {
 
-                Pane rootPane = new Pane();
-                rootPane.setMaxHeight(Double.NEGATIVE_INFINITY);
-                rootPane.setMaxWidth(Double.NEGATIVE_INFINITY);
-                rootPane.setMinHeight(Double.NEGATIVE_INFINITY);
-                rootPane.setMinWidth(Double.NEGATIVE_INFINITY);
-                rootPane.setPrefHeight(708.0);
-                rootPane.setPrefWidth(986.0);
-                rootPane.setStyle("-fx-background-color: #1397D4;");
-
-                Label titleLabel = new Label("Proccess Management Systems-UQ");
-                titleLabel.setLayoutX(268.0);
-                titleLabel.setLayoutY(14.0);
-                titleLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-                titleLabel.setFont(new javafx.scene.text.Font("SimSun", 30.0));
-
-                Pane innerPane = new Pane();
-                innerPane.setFocusTraversable(true);
-                innerPane.setLayoutX(102.0);
-                innerPane.setLayoutY(78.0);
-                innerPane.setMaxHeight(Double.NEGATIVE_INFINITY);
-                innerPane.setMaxWidth(Double.NEGATIVE_INFINITY);
-                innerPane.setMinHeight(Double.NEGATIVE_INFINITY);
-                innerPane.setMinWidth(Double.NEGATIVE_INFINITY);
-                innerPane.setPrefHeight(552.0);
-                innerPane.setPrefWidth(782.0);
-                innerPane.setStyle("-fx-background-color: #ffffff;");
-
-                Button btnCrear = new Button("ACTUALIZAR");
-                btnCrear.setId("btnCrear");
-                btnCrear.setEllipsisString("");
-                btnCrear.setLayoutX(145.0);
-                btnCrear.setLayoutY(422.0);
-                btnCrear.setMnemonicParsing(false);
-                btnCrear.setPrefHeight(41.0);
-                btnCrear.setPrefWidth(184.0);
-                btnCrear.setStyle("-fx-background-color: #1397D4;");
-                btnCrear.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-                btnCrear.setTextFill(javafx.scene.paint.Color.WHITE);
-                btnCrear.setWrapText(true);
-                btnCrear.setFont(new javafx.scene.text.Font("SimSun", 25.0));
-
-                Label titleLabel2 = new Label("Actualizanción de proceso");
-                titleLabel2.setAlignment(javafx.geometry.Pos.CENTER);
-                titleLabel2.setLayoutX(186.0);
-                titleLabel2.setLayoutY(21.0);
-                titleLabel2.setPrefHeight(35.0);
-                titleLabel2.setPrefWidth(410.0);
-                titleLabel2.setText("Actualizanción de proceso");
-                titleLabel2.setTextFill(javafx.scene.paint.Color.web("#1397d4"));
-                titleLabel2.setFont(new javafx.scene.text.Font("SimSun", 30.0));
-
-                Label labelName = new Label("Nombre");
-                labelName.setLayoutX(119.0);
-                labelName.setLayoutY(90.0);
-                labelName.setFont(new javafx.scene.text.Font("SimSun", 22.0));
-
-                Label labelId = new Label("ID");
-                labelId.setLayoutX(144.0);
-                labelId.setLayoutY(159.0);
-                labelId.setFont(new javafx.scene.text.Font("SimSun", 22.0));
-
-                Label labelTimeMin = new Label("Tiempo mínimo");
-                labelTimeMin.setLayoutX(89.0);
-                labelTimeMin.setLayoutY(226.0);
-                labelTimeMin.setFont(new javafx.scene.text.Font("SimSun", 22.0));
-
-                Label labelTimeMax = new Label("Tiempo máximo");
-                labelTimeMax.setLayoutX(89.0);
-                labelTimeMax.setLayoutY(292.0);
-                labelTimeMax.setFont(new javafx.scene.text.Font("SimSun", 22.0));
-
-                TextField tfName = new TextField();
-                tfName.setAlignment(javafx.geometry.Pos.CENTER);
-                tfName.setLayoutX(316.0);
-                tfName.setLayoutY(81.0);
-                tfName.setPrefHeight(39.0);
-                tfName.setPrefWidth(300.0);
-                tfName.setStyle("-fx-background-color: #1397D4;");
-                tfName.setFont(new javafx.scene.text.Font(18.0));
-
-                TextField tfId = new TextField();
-                tfId.setAlignment(javafx.geometry.Pos.CENTER);
-                tfId.setLayoutX(316.0);
-                tfId.setLayoutY(150.0);
-                tfId.setPrefHeight(39.0);
-                tfId.setPrefWidth(300.0);
-                tfId.setStyle("-fx-background-color: #1397D4;");
-                tfId.setFont(new javafx.scene.text.Font(18.0));
-
-                TextField tfTimeMin = new TextField();
-                tfTimeMin.setAlignment(javafx.geometry.Pos.CENTER);
-                tfTimeMin.setLayoutX(316.0);
-                tfTimeMin.setLayoutY(218.0);
-                tfTimeMin.setPrefHeight(39.0);
-                tfTimeMin.setPrefWidth(300.0);
-                tfTimeMin.setStyle("-fx-background-color: #1397D4;");
-                tfTimeMin.setFont(new javafx.scene.text.Font(18.0));
-
-                TextField tfTimeMax = new TextField();
-                tfTimeMax.setAlignment(javafx.geometry.Pos.CENTER);
-                tfTimeMax.setLayoutX(316.0);
-                tfTimeMax.setLayoutY(283.0);
-                tfTimeMax.setPrefHeight(39.0);
-                tfTimeMax.setPrefWidth(300.0);
-                tfTimeMax.setStyle("-fx-background-color: #1397D4;");
-                tfTimeMax.setFont(new javafx.scene.text.Font(18.0));
-
-                Button btnCancelar = new Button("CANCELAR");
-                btnCancelar.setId("btnCancelar");
-                btnCancelar.setEllipsisString("");
-                btnCancelar.setLayoutX(466.0);
-                btnCancelar.setLayoutY(422.0);
-                btnCancelar.setMnemonicParsing(false);
-                btnCancelar.setPrefHeight(41.0);
-                btnCancelar.setPrefWidth(184.0);
-                btnCancelar.setStyle("-fx-background-color: #1397D4;");
-                btnCancelar.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-                btnCancelar.setTextFill(javafx.scene.paint.Color.WHITE);
-                btnCancelar.setWrapText(true);
-                btnCancelar.setFont(new javafx.scene.text.Font("SimSun", 25.0));
-
-                innerPane.getChildren().addAll(
-                        btnCrear, titleLabel2, labelName, labelId, labelTimeMin, labelTimeMax,
-                        tfName, tfId, tfTimeMin, tfTimeMax, btnCancelar
-                );
-                tfName.setText(procesoSelecionado.getNombre());
-                tfId.setText(procesoSelecionado.getId());
-                tfTimeMin.setText(String.valueOf(procesoSelecionado.getTiempoMinimo()));
-                tfTimeMax.setText(String.valueOf(procesoSelecionado.getTiempoMaximo()));
-
-                rootPane.getChildren().addAll(titleLabel, innerPane);
-                Stage stage = new Stage();
-                Scene scene = new Scene(rootPane, 986, 708);
-                stage.setScene(scene);
-                stage.show();
-
-                btnCrear.setOnAction(actionEvent -> {
-                    String name = tfName.getText();
-                    String id = tfId.getText();
-                    String timeMax = tfTimeMax.getText();
-                    String timeMin = tfTimeMin.getText();
-                    if (validarDatos(name, id, timeMax, timeMin)) {
-                        Proceso procesoEditado = new Proceso(id, name);
-                        procesoSelecionado = INSTANCE.getModel().actualizarProceso(procesoEditado, procesoSelecionado.getId());
-                        mostrarMensaje("Informacion proceso", "", "El proceso ha sido actualizado.", Alert.AlertType.INFORMATION);
-                        stage.close();
-                    }
-                });
-                btnCancelar.setOnAction(actionEvent1 -> {
-                    stage.close();
-                });
-
-            } else {
-                mostrarMensaje("Informacion proceso", "ERROR", "Seleccione el proceso que desea editar", Alert.AlertType.ERROR);
-            }
-        }else {
-            mostrarMensaje("Informacion Rol","ERROR","Solo los administradores pueden crear procesos", Alert.AlertType.ERROR);
-
-        }
-    }
     public void  onEliminarProceso() throws Exception {
         if (INSTANCE.getModel().getUsuarioLogueado().getRol().equals(Rol.ADMINISTRADOR)) {
         if (paneSeleccionado != null) {
@@ -739,8 +602,6 @@ public class PrincipalViewController {
             mostrarMensaje("Informacion proceso", "ERROR", "Seleccione la actividad que le desea añadir una tarea", Alert.AlertType.WARNING);
         }
     }
-
-
 
     public void onLogoutAction(javafx.event.ActionEvent actionEvent) throws IOException {
         INSTANCE.getModel().setUsuarioLogueado(null);
@@ -840,13 +701,141 @@ public class PrincipalViewController {
         return tareaSeleccionada;
     }
 
-    public void onClickBuscar(ActionEvent actionEvent) {
+    public void onClickBuscar() {
+
+        String filtro = tfBuscar.getText();
+
+        if( filtro.equals("") || filtro == null){
+            mostrarMensaje("BUSQUEDAD", "Error en la busquedad", "Ingrese una palabra para filtrar", Alert.AlertType.ERROR);
+            refrescarVentana();
+        }else{
+            Object objectoEncontrado = INSTANCE.getModel().buscar(filtro);
+            contentProccess.getChildren().clear();
+            contentActivies.getChildren().clear();
+            contentTaks.getChildren().clear();
+            proccessCurrentY = 0;
+            activiesCurrentY = 0;
+            taskCurrentY = 0;
+            if(objectoEncontrado == null){
+                mostrarMensaje("BUSQUEDAD", "Error en la busquedad","No se ha encontrado ninguna coincidencia", Alert.AlertType.ERROR);
+            }else{
+                if(objectoEncontrado instanceof Proceso){
+                    mostrarProceso((Proceso) objectoEncontrado);
+                }else if(objectoEncontrado instanceof Actividad) {
+                    mostrarActividad((Actividad) objectoEncontrado);
+                }else{
+                    mostrarTarea((Tarea) objectoEncontrado);
+                }
+            }
+        }
     }
 
-    public void onClickRunProccess(ActionEvent actionEvent) {
+    private void mostrarProceso(Proceso objectoEncontrado) {
+    }
+
+    private void mostrarTarea(Tarea objectoEncontrado) {
+        HBox hbox = new HBox();
+        Label tarea = new Label(objectoEncontrado.getNombre());
+        Button btnEdit, btnRemove;
+        btnEdit = new Button();
+        btnRemove = new Button();
+
+        Image img = new Image("/resources/eliminar.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setFitWidth(20);
+        view.setPreserveRatio(true);
+
+        Image img1 = new Image("/resources/editar.png");
+        ImageView view1 = new ImageView(img1);
+        view1.setFitHeight(20);
+        view1.setFitWidth(20);
+        view1.setPreserveRatio(true);
+
+        tarea.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20;");
+
+        btnRemove.setGraphic(view);
+        btnEdit.setGraphic(view1);
+
+        hbox.setLayoutY(taskCurrentY);
+        taskCurrentY += hbox.getPrefHeight() + 30;
+
+        hbox.setMargin(btnEdit, new Insets(0, 0, 0, 50)); // Márgen derecho para el botón 1
+        hbox.setMargin(btnRemove, new Insets(0, 0, 0, 10));
+
+        hbox.setLayoutY(taskCurrentY);
+        taskCurrentY += hbox.getPrefHeight() + 20;
+
+        hbox.getChildren().addAll(tarea, btnEdit, btnRemove);
+        contentTaks.getChildren().add(hbox);
+    }
+
+    private void mostrarActividad(Actividad objectoEncontrado) {
+
+        HBox hbox = new HBox();
+        Label actividadView = new Label(objectoEncontrado.getNombre());
+        Button btnEdit, btnRemove, btnInfo;
+        btnEdit = new Button();
+        btnRemove = new Button();
+        btnInfo = new Button();
+
+        Image img = new Image("/resources/eliminar.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setFitWidth(20);
+        view.setPreserveRatio(true);
+
+        Image img1 = new Image("/resources/editar.png");
+        ImageView view1 = new ImageView(img1);
+        view1.setFitHeight(20);
+        view1.setFitWidth(20);
+        view1.setPreserveRatio(true);
+
+        Image img2 = new Image("/resources/info.png");
+        ImageView view2 = new ImageView(img2);
+        view2.setFitHeight(20);
+        view2.setFitWidth(20);
+        view2.setPreserveRatio(true);
+
+        btnRemove.setGraphic(view);
+        btnEdit.setGraphic(view1);
+        btnInfo.setGraphic(view2);
+
+        actividadView.setStyle("-fx-font-family: 'SimSun'; -fx-font-size: 20;");
+
+        hbox.setLayoutY(activiesCurrentY);
+        activiesCurrentY += hbox.getPrefHeight() + 30;
+
+        hbox.setMargin(btnInfo, new Insets(0, 0, 0, 30)); // Márgen derecho para el botón 1
+        hbox.setMargin(btnEdit, new Insets(0, 0, 0, 10));
+        hbox.setMargin(btnRemove, new Insets(0, 0, 0, 10));
+
+        hbox.setLayoutY(activiesCurrentY);
+        activiesCurrentY += hbox.getPrefHeight() + 20;
+
+        hbox.getChildren().addAll(actividadView, btnInfo,btnEdit, btnRemove);
+        contentActivies.getChildren().add(hbox);
+    }
+    public void onClickRunProccess() {
+        if(procesoSelecionado != null){
+
+            mostrarMensaje("INICIAR PROCESO", "Proceso iniciado", "Se ha iniciado el proceso", Alert.AlertType.INFORMATION);
+            try {
+                INSTANCE.getModel().iniciarProceso(procesoSelecionado);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            mostrarMensaje("INICIAR PROCESO", "Proceso no inciado", "Seleccione un proceso para inciar", Alert.AlertType.WARNING);
+        }
+
+        refrescarVentana();
     }
 
     public void onClickExportar(ActionEvent actionEvent) {
+
+        INSTANCE.getModel().exportarProcesosACSV("archivo.csv");
+        mostrarMensaje("EXPOTACIÓN", "Acción existosa", "Se ha esportado correctamente", Alert.AlertType.INFORMATION);
     }
 
     public void onClickImportar(ActionEvent actionEvent) {

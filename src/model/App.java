@@ -1,14 +1,19 @@
 package model;
 
+import resources.Cola;
 import resources.ListaDoble;
 import resources.ListaSimple;
 import resources.Nodo;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
-public class App {
+public class App extends Thread {
+
+    public static final String RUTA_ARCHIVO_CSV = "C://td//";
 
     private ListaSimple <Proceso>listaProcesos;
 
@@ -283,5 +288,71 @@ public class App {
 
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
+    }
+
+    public Object buscar(String filtro) {
+        Cola<Tarea> colaAux = new Cola<>();
+
+        for (int i = 0; i < listaProcesos.getTamano(); i++) {
+            Proceso proceso = listaProcesos.obtenerNodo(i).getValorNodo();
+            for (int j = 0; j < proceso.getListaActividades().getTamano(); j++) {
+                Actividad actividad = proceso.getListaActividades().obtenerNodo(j).getValorNodo();
+
+                if(actividad.getNombre().equals(filtro)){
+                    return actividad;
+                }
+                while (!actividad.getTareas().estaVacia()){
+                    Tarea tarea = actividad.getTareas().desencolar();
+                    colaAux.encolar(tarea);
+                    actividad.setTareas(colaAux);
+                    if(tarea.getNombre().equals(filtro)){
+                        return tarea;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void iniciarProceso(Proceso proceso) throws InterruptedException {
+        Cola<Tarea> colaAux = new Cola<>();
+        for (int i = 0; i < proceso.getListaActividades().getTamano(); i++) {
+
+            Actividad actividad = proceso.getListaActividades().obtenerNodo(i).getValorNodo();
+
+            while (!actividad.getTareas().estaVacia()){
+                Tarea tarea = actividad.getTareas().desencolar();
+                colaAux.encolar(tarea);
+                sleep(tarea.getTiempo()*1000);
+                tarea.setCompletada(true);
+            }
+            actividad.setTareas(colaAux);
+        }
+    }
+
+    public void exportarProcesosACSV(String nombreArchivo) {
+        try (FileWriter writer = new FileWriter(RUTA_ARCHIVO_CSV+nombreArchivo)) {
+            writer.write("ID Proceso,Nombre Proceso,Nombre Actividad,Descripción Actividad,Nombre Tarea,Descripción Tarea,Tiempo Tarea\n");
+            for (int i = 0; i < listaProcesos.getTamano(); i++) {
+                Proceso proceso = listaProcesos.obtenerNodo(i).getValorNodo();
+                for (int j = 0; j < proceso.getListaActividades().getTamano(); j++) {
+                    Actividad actividad = proceso.getListaActividades().obtenerValorNodo(j);
+                    // Obtener el tamaño actual de la cola de tareas
+                    int tamanoTareas = actividad.getTareas().getTamano();
+                    // Iterar y procesar cada tarea en la cola
+                    for (int k = 0; k < tamanoTareas; k++) {
+                        Tarea tarea = actividad.getTareas().desencolar(); // Extraer la tarea de la cola
+                        writer.write(proceso.getId() + "," + proceso.getNombre() + "," +
+                                actividad.getNombre() + "," + actividad.getDescripcion() + "," +
+                                tarea.getNombre() + "," + tarea.getDescripcion() + "," + tarea.getTiempo() + "\n");
+                        // Volver a encolar la tarea para mantener la estructura original
+                        actividad.getTareas().encolar(tarea);
+                    }
+                }
+            }
+            System.out.println("Datos exportados correctamente a " + nombreArchivo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
